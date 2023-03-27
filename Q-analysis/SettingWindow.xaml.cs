@@ -24,6 +24,7 @@ namespace Q_analysis
         private void InitializeSettingWindow()
         {
             InitializeComponent();
+            //one
             dataGrid.Visibility = Visibility.Hidden;
             this.MatrixSize = Enumerable.Range(1, 20).ToArray();
             this.DataContext = this;
