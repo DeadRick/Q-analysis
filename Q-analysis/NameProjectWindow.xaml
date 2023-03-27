@@ -1,0 +1,18 @@
+﻿<Window x:Class="Q_analysis.NameProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Q_analysis"
+        WindowStartupLocation="CenterOwner"
+        mc:Ignorable="d"
+        Title="Project name" Height="175" Width="350">
+    <StackPanel>
+        <TextBlock x:Name="warningText" Margin="10, 20, 10, 0" HorizontalAlignment="Center" FontWeight="DemiBold"></TextBlock>
+        <TextBlock Margin="10, 0, 10, 0" Text="Enter the project name:" HorizontalAlignment="Center"></TextBlock>
+        <TextBox x:Name="projectName" Margin="15" Width="200">Project name</TextBox>
+        <Border CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" HorizontalAlignment="Center">
+            <Button Width="50" Height="15"  BorderThickness="0" FontSize="10" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Padding="-1" Click="OnClickName">Ok</Button>
+        </Border>
+    </StackPanel>
+</Window>

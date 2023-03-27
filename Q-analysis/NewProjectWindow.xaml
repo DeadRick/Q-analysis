@@ -1,0 +1,25 @@
+﻿<Window x:Class="Q_analysis.NewProjectWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Q_analysis"
+        mc:Ignorable="d"
+        
+        Title="Q-analysis" Height="450" Width="800" Closed="CloseWindow">
+    <Grid>
+        <StackPanel>
+            <TextBlock Margin="10, 100, 10, 20"  FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center">Choose type of the model to use:
+            </TextBlock>
+            <Border CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" HorizontalAlignment="Center" >
+                <Button Width="170" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="BinaryMatrixBtn">Binary matrix</Button>
+            </Border>
+            <Border Margin="0, 15, 0, 15" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" HorizontalAlignment="Center" >
+                <Button Width="170" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White">Weighted matrix</Button>
+            </Border>
+            <Border CornerRadius="6" BorderBrush="#96A8FC" BorderThickness="2" HorizontalAlignment="Center">
+                <Button Width="125" Height="20" FontSize="11" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="BackToMenu" >Back</Button>
+            </Border>
+        </StackPanel>
+    </Grid>
+</Window>

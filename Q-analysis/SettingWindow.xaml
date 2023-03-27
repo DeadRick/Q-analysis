@@ -1,0 +1,65 @@
+﻿<Window x:Class="Q_analysis.SettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Q_analysis"
+        mc:Ignorable="d"
+        Title="Q-analysis" Height="450" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="500px" />
+            <ColumnDefinition Width="100px" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="350px" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.RowSpan="2" Grid.Column="0" Margin="20, 10, 0, 0" Width="auto">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding Matrix}"
+                  HeadersVisibility="None"  RowHeaderWidth="0" VerticalAlignment="Top" 
+                  CanUserAddRows="False" CanUserDeleteRows="True"  Width="auto" MaxWidth="500" MaxHeight="350"
+                  />
+
+       </Grid>
+        <TextBlock x:Name="matrixMessage" Grid.Row="0" Grid.Column="0" Foreground="DimGray" Margin="20, 10, 0, 0" Width="auto">Matrix will appear here.</TextBlock>
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0, 25, 0, 0">
+            <Border x:Name="saveBtnBorder" Margin="20, 0, 20, 0" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="saveBtn" Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="SaveMatrix">Save</Button>
+            </Border>
+            <Border  CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="loadBtn">Load</Button>
+        </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Margin="0">
+            <TextBlock x:Name="projectNmae" FontWeight="DemiBold" Margin="0, 0, 0, 15"></TextBlock>
+
+            <TextBlock>Enter size of matrix:</TextBlock> 
+            <StackPanel Margin="0, 5, 0, 5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+                <TextBox x:Name="nSize" Margin="0, 0, 10, 0" Width="50" MaxHeight="25"/>
+                <TextBox x:Name="mSize" Width="50" MaxHeight="25"></TextBox>
+            </StackPanel>
+            <TextBlock>Enter default value:</TextBlock>
+            <TextBox x:Name="defaultValue" Width="50" MaxHeight="25" HorizontalAlignment="Left" Margin="0, 5, 0 ,0">1</TextBox>    
+            <StackPanel Orientation="Horizontal">
+                <Border CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="2" Grid.Row="0"  Width="40" Height="25" Margin="0, 10, 0, 0">
+                    <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="UpdateSize">Apply</Button>
+                </Border>
+                <Border CornerRadius="6" BorderBrush="#96A8FC" BorderThickness="2" Grid.Column="2" Grid.Row="0"  Width="40" Height="25" Margin="30, 10, 0, 0">
+                    <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="Button_Click">Back</Button>
+                </Border>
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</Window>
