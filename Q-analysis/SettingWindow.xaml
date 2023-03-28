@@ -16,7 +16,7 @@
             <RowDefinition Height="350px" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.RowSpan="2" Grid.Column="0" Margin="20, 10, 0, 0" Width="auto">
+        <Grid Grid.RowSpan="2" Grid.Column="0" Margin="20, 20, 0, 0" Width="auto">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
                   />
 
        </Grid>
-        <TextBlock x:Name="matrixMessage" Grid.Row="0" Grid.Column="0" Foreground="DimGray" Margin="20, 10, 0, 0" Width="auto">Matrix will appear here.</TextBlock>
+        <TextBlock x:Name="matrixMessage" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" Margin="20, 10, 0, 0" Width="auto">Matrix will appear here.</TextBlock>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0, 25, 0, 0">
             <Border x:Name="saveBtnBorder" Margin="20, 0, 20, 0" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Button x:Name="saveBtn" Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
@@ -39,6 +39,8 @@
             <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     FontSize="14" Background="#546DE5" Foreground="White" Click="loadBtn">Load</Button>
         </Border>
+            <TextBlock x:Name="loadMessage" Visibility="Hidden" Foreground="DarkGray" VerticalAlignment="Center" Margin="30, 0, 0, 0"> Matrix was successfully saved. </TextBlock>
+
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="0">
@@ -59,6 +61,17 @@
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="Button_Click">Back</Button>
                 </Border>
             </StackPanel>
+            <TextBlock Margin="0, 15, 0, 0">Slicing parameter: </TextBlock>
+            <TextBox x:Name="slicingValue" Margin="0, 10, 0, 0"></TextBox>
+            <StackPanel Orientation="Horizontal">            
+                <Border CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="2" Grid.Row="0"  Width="40" Height="25" Margin="0, 10, 0, 0">
+                    <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="sliceButton">Slice</Button>
+                </Border>
+                <Border CornerRadius="6" BorderBrush="#96A8FC" BorderThickness="2" Grid.Column="2" Grid.Row="0"  Width="40" Height="25" Margin="30, 10, 0, 0">
+                    <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="returnSliceButton">Return</Button>
+                </Border>
+            </StackPanel>
+
         </StackPanel>
 
     </Grid>

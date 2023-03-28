@@ -10,7 +10,7 @@
 
     <StackPanel HorizontalAlignment="Left" Width="800">
         
-        <TextBlock x:Name="TextQ" Margin="10, 100, 10, 20"  FontSize="50" HorizontalAlignment="Center">Q-analysis
+        <TextBlock x:Name="TextQ" Margin="10, 70, 10, 20"  FontSize="50" HorizontalAlignment="Center">Q-analysis
         </TextBlock>
 
         <Border Margin="0, 0, 0, 15" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" HorizontalAlignment="Center">

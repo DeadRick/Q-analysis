@@ -1,10 +1,12 @@
 ﻿using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Xml.Linq;
@@ -54,6 +56,7 @@ namespace Q_analysis
 
         public IList MatrixSize { get; private set; }
         public DataTable Matrix { get; set; }
+        public DataTable OldMatrix { get; set; }
 
         public int DefaultValue { get; set; }
 
@@ -170,6 +173,47 @@ namespace Q_analysis
                     }
                 }
             }
+            loadMessage.Visibility = Visibility.Visible;
+            // #TODO Сделать так, чтобы надпись на 5 минут появлялась 
+        }
+
+ 
+
+        private void sliceButton(object sender, RoutedEventArgs e)
+        {
+            if (Matrix is null)
+            {
+                return;
+            }
+            int slice;
+            if (slicingValue.Text != "" && slicingValue.Text is not null)
+            {
+                slice = int.Parse(slicingValue.Text); // #TODO Обработка исключений
+            } else
+            {
+                return;
+            }
+            OldMatrix = Matrix.Clone();
+            foreach (DataRow row in Matrix.Rows)
+            {
+                OldMatrix.ImportRow(row);
+            }
+            for (int i = 0; i < Matrix.Rows.Count; i++) 
+            {
+                for (int j = 0; j < Matrix.Columns.Count; j++)
+                {
+                    DataRow row = Matrix.Rows[i];
+                    int element = Convert.ToInt32(row["c" + j.ToString()]);
+                    if (element >= slice)
+                    {
+                        row["c" + j.ToString()] = 1;
+                    } else
+                    {
+                        row["c" + j.ToString()] = 0;
+                    }
+                }
+            }
+            slicingValue.Text = "";
         }
 
         private void LoadFile(string[] file)
@@ -203,9 +247,21 @@ namespace Q_analysis
             if(ofd.ShowDialog() == true)
             {
                 LoadProcedure(ofd);
-            }
 
-            
+            }
+        }
+
+        private void returnSliceButton(object sender, RoutedEventArgs e)
+        {
+            if (OldMatrix is null)
+            {
+                return;
+            }
+            Matrix.Clear();
+            foreach (DataRow row in OldMatrix.Rows)
+            {
+                Matrix.ImportRow(row);
+            }
         }
     }
 }
