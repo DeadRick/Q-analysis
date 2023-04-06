@@ -7,8 +7,15 @@
         mc:Ignorable="d"
         Title="Q-analysis" Height="450" Width="800" Closed="ExitWindow">
 
-
-    <StackPanel HorizontalAlignment="Left" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+    
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1">
         
         <TextBlock x:Name="TextQ" Margin="10, 70, 10, 20"  FontSize="50" HorizontalAlignment="Center">Q-analysis
         </TextBlock>
@@ -29,4 +36,5 @@
             <Button Width="125" Height="20" FontSize="11" BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="BtnExit" >Exit</Button>
         </Border>
     </StackPanel>
+    </Grid>
 </Window>

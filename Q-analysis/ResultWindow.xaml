@@ -17,23 +17,27 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock>Project Name</TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center">Results</TextBlock>
-        <Button Grid.Row="0" Grid.Column="0" Content="Button" HorizontalAlignment="Left" Margin="20px" VerticalAlignment="Top" Click="check"/>
 
         <TextBlock Grid.Row="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Eccentricity</TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="1" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Q-vector</TextBlock>
         <TextBlock Grid.Row="2" Grid.Column="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Binary matrix</TextBlock>
-        <ListView Grid.Row="4" d:ItemsSource="{d:SampleData ItemCount=6}" Margin="0,28,0,-27" Grid.Column="1">
+        
+        <ListView x:Name="qVector" Grid.Row="3" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="1">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn/>
+                    <GridViewColumn Header="Dimension" DisplayMemberBinding="{Binding Dimension}"/>
+                    <GridViewColumn Header="Q" DisplayMemberBinding="{Binding Value}"/>
                 </GridView>
             </ListView.View>
         </ListView>
 
+        <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="0" Grid.Row="4"  Width="70" Height="30">
+            <Button Width="71" Height="31"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
+        </Border>
 
 
     </Grid>

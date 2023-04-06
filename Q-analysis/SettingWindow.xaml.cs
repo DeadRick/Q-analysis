@@ -269,6 +269,9 @@ namespace Q_analysis
             if (resultWindow is null)
             {
                 resultWindow = new ResultWindow(this, this.Matrix);
+            } else
+            {
+                resultWindow.Update(this.Matrix);
             }
         
             resultWindow.Show();
