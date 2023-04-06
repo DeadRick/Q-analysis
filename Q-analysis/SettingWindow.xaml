@@ -26,9 +26,11 @@
             <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding Matrix}"
                   HeadersVisibility="None"  RowHeaderWidth="0" VerticalAlignment="Top" 
                   CanUserAddRows="False" CanUserDeleteRows="True"  Width="auto" MaxWidth="500" MaxHeight="350"
-                  />
+                  >
+                    
+            </DataGrid>
 
-       </Grid>
+        </Grid>
         <TextBlock x:Name="matrixMessage" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" Margin="20, 10, 0, 0" Width="auto">Matrix will appear here.</TextBlock>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center" Margin="0, 25, 0, 0">
             <Border x:Name="saveBtnBorder" Margin="20, 0, 20, 0" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -39,8 +41,13 @@
             <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     FontSize="14" Background="#546DE5" Foreground="White" Click="loadBtn">Load</Button>
         </Border>
-            <TextBlock x:Name="loadMessage" Visibility="Hidden" Foreground="DarkGray" VerticalAlignment="Center" Margin="30, 0, 0, 0"> Matrix was successfully saved. </TextBlock>
-
+            <TextBlock x:Name="loadMessage" Visibility="Hidden" Foreground="DarkGray" VerticalAlignment="Center" Margin="30, 0, 0, 0"> Matrix was successfully saved.</TextBlock>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0, 25, 0, 0">
+            <Border  CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="acceptBtn">Accept</Button>
+            </Border>
         </StackPanel>
 
         <StackPanel Grid.Column="2" Margin="0">
@@ -71,6 +78,9 @@
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="returnSliceButton">Return</Button>
                 </Border>
             </StackPanel>
+            <TextBlock>Type of eccentricity: </TextBlock>
+            <CheckBox Margin="0, 15" Content="CheckBox"/>
+            <CheckBox Content="CheckBox"/>
 
         </StackPanel>
 

@@ -59,7 +59,7 @@ namespace Q_analysis
         public DataTable OldMatrix { get; set; }
 
         public int DefaultValue { get; set; }
-
+        ResultWindow resultWindow { get; set; }
 
 
         private void UpdateSize(object sender, RoutedEventArgs e)
@@ -262,6 +262,17 @@ namespace Q_analysis
             {
                 Matrix.ImportRow(row);
             }
+        }
+
+        private void acceptBtn(object sender, RoutedEventArgs e)
+        {
+            if (resultWindow is null)
+            {
+                resultWindow = new ResultWindow(this, this.Matrix);
+            }
+        
+            resultWindow.Show();
+            this.Hide();
         }
     }
 }

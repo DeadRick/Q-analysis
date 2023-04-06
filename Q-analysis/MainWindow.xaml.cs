@@ -56,7 +56,8 @@ namespace Q_analysis
                 string selectedPath = dialog.SelectedPath;
                 this.Hide();
                 SettingWindow settingWindow = new(selectedPath);
-                settingWindow.Show();
+                settingWindow.Show(); // #TODO System.InvalidOperationException: 'Items collection must be empty before using ItemsSource.'
+
             }
         }
     }
