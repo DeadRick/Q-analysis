@@ -89,8 +89,10 @@ namespace Q_analysis
             {
                 var r = Matrix.NewRow();
                 for (var c = 0; c < sizeM; c++)
+                {
                     r[c] = DefaultValue;
-                Matrix.Rows.Add(r);
+                    Matrix.Rows.Add(r, "r" + i);
+                }
             }
             // this.Matrix = dt.DefaultView;
             matrixMessage.Visibility = Visibility.Hidden;

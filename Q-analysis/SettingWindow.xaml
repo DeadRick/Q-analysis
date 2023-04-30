@@ -78,9 +78,9 @@
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="returnSliceButton">Return</Button>
                 </Border>
             </StackPanel>
-            <TextBlock>Type of eccentricity: </TextBlock>
-            <CheckBox Margin="0, 15" Content="CheckBox"/>
-            <CheckBox Content="CheckBox"/>
+            <TextBlock Margin="0, 15">Type of eccentricity: </TextBlock>
+            <CheckBox Margin="0, 0, 0, 15" Content="J. Casti"/>
+            <CheckBox Content="L. Duckstein"/>
 
         </StackPanel>
 
