@@ -25,7 +25,7 @@
             </Grid.RowDefinitions>
             <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding Matrix}"
                   HeadersVisibility="All"  RowHeaderWidth="0" VerticalAlignment="Top" 
-                  CanUserAddRows="False" CanUserDeleteRows="True"  Width="auto" MaxWidth="500" MaxHeight="350"
+                  CanUserAddRows="False" CanUserDeleteRows="True"  Width="auto" MaxWidth="500" MaxHeight="350" Visibility="Visible"
                   >
                     
             </DataGrid>

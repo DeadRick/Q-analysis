@@ -150,11 +150,11 @@ namespace Q_analysis
         {
             this.settingWindow = settingWindow;
             this.matrix = matrix;
-            this.matrix.Rows[0].Table.Columns[0].ColumnName = "c123";
+            
 
             dg.ItemsSource = matrix.DefaultView;
             //dg.RowHeaderVisible = true;
-            dg.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.Collapsed;
+            dg.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
             dg.IsReadOnly = true;
 
             for (int i = 0; i < dg.Items.Count; i++)
@@ -164,10 +164,6 @@ namespace Q_analysis
                 {
                     row.Header = "r" + i;
                 }
-            }
-         
-            {
-
             }
             dg.HeadersVisibility = DataGridHeadersVisibility.None;
 

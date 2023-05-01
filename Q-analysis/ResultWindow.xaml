@@ -35,7 +35,14 @@
                 </GridView>
             </ListView.View>
         </ListView>
-
+        <ListView x:Name="eccentricity" d:ItemsSource="{DynamicResource ResourceKey=eccArray}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" MaxHeight="500px">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="100px" Header="Following J. Casti" DisplayMemberBinding="{Binding eccCasti}"/>
+                    <GridViewColumn Width="125px" Header="Following D.Duckstein" DisplayMemberBinding="{Binding eccDuck}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
         <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="0" Grid.Row="4"  Width="70" Height="30">
             <Button  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
         </Border>

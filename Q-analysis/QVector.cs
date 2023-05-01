@@ -17,8 +17,6 @@ namespace Q_analysis
         Dictionary<string, string> pathDictionary = new Dictionary<string, string>();
         Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
         int dimensionSize = 0;
-
-
         private void fixList()
         {
             keyValuePairs.Clear();
