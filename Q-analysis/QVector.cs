@@ -12,10 +12,11 @@ namespace Q_analysis
     internal class QVector : IEnumerable
     {
         List<string> listOfRows;
-        List<int> numOfRows;
+        SortedSet<int> numOfRows;
         List<List<string>> finalRows;
         Dictionary<string, string> pathDictionary = new Dictionary<string, string>();
         Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
+        SortedSet<string> visited = new SortedSet<string>();
         int dimensionSize = 0;
         private void fixList()
         {
@@ -24,15 +25,22 @@ namespace Q_analysis
             foreach (var el in listOfRows)
             {
                 string[] splitEl = el.Split(';');
+                if (el == "r3;r11")
+                {
+                    int a = 1;
+                }
                 if (splitEl.Length == 1)
                 {
+                    if (visited.Contains(splitEl[0])) {
+                        continue;
+                    }
                     if (keyValuePairs.ContainsKey(splitEl[0]))
                     {
+                        
                         keyValuePairs[splitEl[0]] = "";
                     } else
                     {
                         keyValuePairs[splitEl[0]] = "";
-
                     }
                     continue;
                 }
@@ -47,11 +55,20 @@ namespace Q_analysis
                     string str = keyValuePairs[key];
                     keyValuePairs[key] = str + ';' + value;
                     pathDictionary[value] = key;
+                    visited.Add(value);
                 } else
                 {
+                    if (pathDictionary.ContainsKey(value))
+                    {
+                        keyValuePairs[pathDictionary[value]] += ";" + key;
+                        pathDictionary[key] = pathDictionary[value];
+                        visited.Add(value);
+                        continue;
+                    }
                     if (pathDictionary.ContainsKey(key))
                     {
-                        keyValuePairs[pathDictionary[key]] += ';' + value; 
+                        keyValuePairs[pathDictionary[key]] += ';' + value;
+                        pathDictionary[value] = pathDictionary[key];
                         continue;
                     } else
                     {
@@ -59,6 +76,7 @@ namespace Q_analysis
                         {
                             pathDictionary.Add(value, key);
                             keyValuePairs.Add(key, value);
+                            visited.Add(value);
                         }
                         else
                         {
@@ -109,6 +127,8 @@ namespace Q_analysis
 
                 }
             }
+            fixList();
+
         }
         public int size()
         {
@@ -118,12 +138,12 @@ namespace Q_analysis
         {
             finalRows = new();
             listOfRows = lst;
+            fixList();
             numOfRows = new();
             for (int i = 0; i < listOfRows.Count; i++)
             {
                 numOfRows.Add(int.Parse(listOfRows[i][1].ToString()));
             }
-            fixList();
         }
         
         public void Add(string el)
@@ -157,30 +177,65 @@ namespace Q_analysis
         {
             foreach (var el in keyValuePairs.Keys) 
             {
-                string[] values = keyValuePairs[el].Split(';');
-                SortedSet<string> sortedStr = new SortedSet<string>();
+                string[] values;
+                if (keyValuePairs[el].Contains(';'))
+                {
+                   values = keyValuePairs[el].Split(';');
+                } else
+                {
+                    keyValuePairs[el] = "";
+                    continue;
+                }
+                SortedSet<int> sortedStr = new SortedSet<int>();
 
                 foreach (var item in values)
                 {
-                    sortedStr.Add(item);
-                }
-                string sortedValue = string.Join(";", sortedStr);
+                    if (item == "")
+                        continue;
 
+                    string res;
+                    if (item[item.Length - 1] == 'r')
+                    {
+                        res = item.Substring(0, item.Length - 1);
+                        sortedStr.Add(int.Parse(res.Substring(1)));
+                    }
+                    else
+                    {
+                        sortedStr.Add(int.Parse(item.Substring(1)));
+                    }
+                }
+                string sortedValue = "";
+                if (sortedStr.Count == 1)
+                {
+                    sortedValue = "r" + sortedStr.ElementAt(0);
+                } else
+                {
+                    sortedValue += 'r';
+                    sortedValue = string.Join(";", sortedStr.Select(x => "r" + x));
+                }
+                
+           
                 keyValuePairs[el] = sortedValue;
             }
         }
 
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < numOfRows.Count; i++)
+            foreach (var item in numOfRows)
             {
-                yield return numOfRows[i];
+                yield return item;
             }
         }
 
         public List<int> getVector()
         {
-            return numOfRows;
+
+            List<int> nums = new();
+            foreach (var item in numOfRows)
+            {
+                nums.Add(item);
+            }
+            return nums;
         }
         
 

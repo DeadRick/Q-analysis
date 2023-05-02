@@ -31,7 +31,7 @@
                 <GridView>
                     <GridViewColumn Header="Dimension" DisplayMemberBinding="{Binding Dimension}"/>
                     <GridViewColumn Header="Q" DisplayMemberBinding="{Binding QValue}"/>
-                    <GridViewColumn Header="Connectivity components" DisplayMemberBinding="{Binding Vectors}"/>
+                    <GridViewColumn Header="Connectivity components" Width="100" DisplayMemberBinding="{Binding Vectors}"/>
                 </GridView>
             </ListView.View>
         </ListView>

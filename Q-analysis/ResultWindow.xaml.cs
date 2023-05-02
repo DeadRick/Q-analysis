@@ -24,8 +24,10 @@ namespace Q_analysis
         private SettingWindow settingWindow;
         public DataTable matrix;
         private List<object> items = new List<object>();
+        private List<object> eccsList = new List<object>();
         DataGrid dg = new DataGrid();
         Dictionary<int, QVector> countDict = new Dictionary<int, QVector>();
+        Dictionary<int, List<int>> rowsList = new Dictionary<int, List<int>>();
 
         public void Update(DataTable oldMatrix)
         {
@@ -36,7 +38,14 @@ namespace Q_analysis
 
             qAnalysisProcedure();
         }
+
+        private void getEccentricity()
+        {
+            eccentricity.ItemsSource = eccsList;
+        }
+
         private void qAnalysisProcedure() {
+            rowsList.Clear();
             int count = 0;
             for (int i = 0; i < matrix.Rows.Count; i++)
             {
@@ -45,7 +54,7 @@ namespace Q_analysis
                 for (int j = 0; j < matrix.Columns.Count; j++)
                 {
                     DataRow row = matrix.Rows[i];
-                    int element = Convert.ToInt32(row["c" + j.ToString()]);
+                    int element = Convert.ToInt32(row["c" + (j + 1)]);
                     if (element == 1)
                     {
                         count++;
@@ -55,28 +64,48 @@ namespace Q_analysis
 
                 for (int k = count; k > 0; k--)
                 {
-                    if (countDict.ContainsKey(k))
+                    if (rowsList.ContainsKey(k))
                     {
-                        countDict[k].Add("r" + (i + 1));
+                        rowsList[k].Add(i);
                     } else
                     {
-                        countDict.Add(k, new QVector("r" + (i + 1)));
+                        rowsList[k] = new List<int>() { i };
                     }
+                    //if (countDict.ContainsKey(k))
+                    //{
+                    //    countDict[k].Add("r" + (i + 1));
+                    //} else
+                    //{
+                    //    countDict.Add(k, new QVector("r" + (i + 1)));
+                    //}
                 }
         
             }
 
-            qVectorSort();
+            QVectorFix qv = new QVectorFix(rowsList, matrix);
+
+            //qVectorSort();
 
             visualMatrix.ItemsSource = matrix.DefaultView;
+
+            foreach (var el in qv.finalDict.Keys)
+            {
+                items.Add(new { Dimension = el - 1, QValue = qv.finalDict[el].Count, Vectors = qv.GetString(el) });
+            }
+
+            //foreach (var el in countDict)
+            //{
+            //    items.Add(new { Dimension = el.Key - 1, QValue = el.Value.size(), Vectors = el.Value });
+            //}
             qVector.ItemsSource = items;
 
-
-            foreach (var el in countDict)
+            for (int i = 0; i < matrix.Rows.Count; i++)
             {
-                items.Add(new { Dimension = el.Key - 1, QValue = el.Value.size(), Vectors = el.Value });
-
+                string data = (i + 1) + " - " + qv.getCastiEcc(i).ToString();
+                eccsList.Add(new { eccCasti = data });
             }
+
+            eccentricity.ItemsSource = eccsList;
         }
 
         public void qVectorSort()
@@ -100,8 +129,8 @@ namespace Q_analysis
 
                             for (int i = 0; i < rowSize; i++)
                             {
-                                int el1 = Convert.ToInt32(rowF["c" + i.ToString()]);
-                                int el2 = Convert.ToInt32(rowS["c" + i.ToString()]);
+                                int el1 = Convert.ToInt32(rowF["c" + (i + 1)]);
+                                int el2 = Convert.ToInt32(rowS["c" + (i + 1)]);
 
                                 if (el1 == 1 && el2 == 1)
                                 {

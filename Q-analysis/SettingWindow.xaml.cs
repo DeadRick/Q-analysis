@@ -84,7 +84,7 @@ namespace Q_analysis
             this.Matrix = new DataTable();
             this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
             for (var i = 0; i < sizeM; i++)
-                Matrix.Columns.Add(new DataColumn("c" + i, typeof(int)));
+                Matrix.Columns.Add(new DataColumn("c" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
             {
                 var r = Matrix.NewRow();
@@ -111,7 +111,7 @@ namespace Q_analysis
             this.Matrix = new DataTable();
             this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
             for (var i = 0; i < sizeM; i++)
-                Matrix.Columns.Add(new DataColumn("c" + i, typeof(int)));
+                Matrix.Columns.Add(new DataColumn("c" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
             {
                 var r = Matrix.NewRow();
@@ -209,10 +209,10 @@ namespace Q_analysis
                     int element = Convert.ToInt32(row["c" + j.ToString()]);
                     if (element >= slice)
                     {
-                        row["c" + j.ToString()] = 1;
+                        row["c" + (j + 1)] = 1;
                     } else
                     {
-                        row["c" + j.ToString()] = 0;
+                        row["c" + (j + 1)] = 0;
                     }
                 }
             }
