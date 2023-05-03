@@ -219,7 +219,7 @@ namespace Q_analysis
                 for (int j = 0; j < Matrix.Columns.Count; j++)
                 {
                     DataRow row = Matrix.Rows[i];
-                    int element = Convert.ToInt32(row["y" + j.ToString()]);
+                    int element = Convert.ToInt32(row["y" + (j + 1)]);
                     if (element >= slice)
                     {
                         row["y" + (j + 1)] = 1;
