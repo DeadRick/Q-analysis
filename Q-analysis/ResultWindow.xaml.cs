@@ -25,36 +25,34 @@ namespace Q_analysis
         public DataTable matrix;
         private List<object> items = new List<object>();
         private List<object> eccsList = new List<object>();
+        private List<object> qVectorStr = new List<object>();
         DataGrid dg = new DataGrid();
         Dictionary<int, QVector> countDict = new Dictionary<int, QVector>();
         Dictionary<int, List<int>> rowsList = new Dictionary<int, List<int>>();
 
+
         public void Update(DataTable oldMatrix)
         {
             items.Clear();
+            eccsList.Clear();
             countDict.Clear();
             qVector.ItemsSource = null;
+            eccentricity.ItemsSource = null;
             this.matrix = oldMatrix;
 
             qAnalysisProcedure();
-        }
-
-        private void getEccentricity()
-        {
-            eccentricity.ItemsSource = eccsList;
-        }
+        } 
 
         private void qAnalysisProcedure() {
             rowsList.Clear();
             int count = 0;
             for (int i = 0; i < matrix.Rows.Count; i++)
             {
-                QVector qVector = new QVector();
                 count = 0;
                 for (int j = 0; j < matrix.Columns.Count; j++)
                 {
                     DataRow row = matrix.Rows[i];
-                    int element = Convert.ToInt32(row["c" + (j + 1)]);
+                    int element = Convert.ToInt32(row["y" + (j + 1)]);
                     if (element == 1)
                     {
                         count++;
@@ -71,13 +69,6 @@ namespace Q_analysis
                     {
                         rowsList[k] = new List<int>() { i };
                     }
-                    //if (countDict.ContainsKey(k))
-                    //{
-                    //    countDict[k].Add("r" + (i + 1));
-                    //} else
-                    //{
-                    //    countDict.Add(k, new QVector("r" + (i + 1)));
-                    //}
                 }
         
             }
@@ -88,98 +79,35 @@ namespace Q_analysis
 
             visualMatrix.ItemsSource = matrix.DefaultView;
 
+            int cnt = 0;
             foreach (var el in qv.finalDict.Keys)
             {
-                items.Add(new { Dimension = el - 1, QValue = qv.finalDict[el].Count, Vectors = qv.GetString(el) });
+                string data1 = "q = " + (el - 1);
+                items.Add(new { Dimension = data1, QValue = qv.finalDict[el].Count, Vectors = qv.GetString(el) });
+                cnt++;  
             }
 
-            //foreach (var el in countDict)
-            //{
-            //    items.Add(new { Dimension = el.Key - 1, QValue = el.Value.size(), Vectors = el.Value });
-            //}
             qVector.ItemsSource = items;
 
             for (int i = 0; i < matrix.Rows.Count; i++)
             {
-                string data = (i + 1) + " - " + qv.getCastiEcc(i).ToString();
-                eccsList.Add(new { eccCasti = data });
+                string data1 = "ecc(x" + (i + 1) + ") = " + qv.getCastiEcc(i).ToString();
+                string data2 = "ecc(x" + (i + 1) + ") = " + qv.getDucksteinEcc(i).ToString();
+                eccsList.Add(new { eccCasti = data1, eccDuck =  data2});
             }
 
+            qVectorText.Text = qv.QVectorString().ToString();
             eccentricity.ItemsSource = eccsList;
         }
 
-        public void qVectorSort()
-        {
-            Dictionary<int, QVector> tempDict = new();
-            foreach (var el in countDict)
-            {
-                int countOne = el.Key;
-                List<int> numRows = el.Value.getVector();
-                for (int k = 0; k < numRows.Count; k++)
-                {
-                    for (int j = k; j < numRows.Count; j++)
-                    {
-                        if (numRows[k] != numRows[j])
-                        {
-                            DataRow rowF = matrix.Rows[numRows[k] - 1];
-                            DataRow rowS = matrix.Rows[numRows[j] - 1];
-                            int rowSize = rowF.ItemArray.Length;
-
-                            int count = 0;
-
-                            for (int i = 0; i < rowSize; i++)
-                            {
-                                int el1 = Convert.ToInt32(rowF["c" + (i + 1)]);
-                                int el2 = Convert.ToInt32(rowS["c" + (i + 1)]);
-
-                                if (el1 == 1 && el2 == 1)
-                                {
-                                    count++;
-                                }
-                            }
-
-                            if (count >= countOne)
-                            {
-                                if (tempDict.ContainsKey(el.Key))
-                                {
-                                    tempDict[el.Key].Add("r" + numRows[k] + ";r" + numRows[j]);
-                                }
-                                else
-                                {
-                                    tempDict.Add(el.Key, new QVector("r" + numRows[k] + ";r" + numRows[j]));
-                                }
-
-                            }
-                        }
-                    }
-                }
-            }
-
-            foreach (var el in countDict)
-            {
-                foreach (var it in el.Value)
-                {
-                    if (tempDict.ContainsKey(el.Key))
-                    {
-
-                        tempDict[el.Key].Add("r" + it);
-                    }
-                    else
-                    {
-                        tempDict.Add(el.Key, new QVector("r" + it));
-                    }
-                }
-            }
-            var sortedDict = tempDict.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
-            //sortedDict[1] = new QVector("all");
-            countDict = sortedDict;
-        }
 
         public ResultWindow(SettingWindow settingWindow, DataTable matrix)
         {
+
             this.settingWindow = settingWindow;
             this.matrix = matrix;
-            
+            this.WindowState = WindowState.Maximized;
+
 
             dg.ItemsSource = matrix.DefaultView;
             //dg.RowHeaderVisible = true;
@@ -191,7 +119,7 @@ namespace Q_analysis
                 var row = (DataGridRow)dg.ItemContainerGenerator.ContainerFromIndex(i);
                 if (row != null)
                 {
-                    row.Header = "r" + i;
+                    row.Header = "x" + i;
                 }
             }
             dg.HeadersVisibility = DataGridHeadersVisibility.None;

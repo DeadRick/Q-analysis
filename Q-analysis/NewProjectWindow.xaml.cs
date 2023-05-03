@@ -33,7 +33,9 @@ namespace Q_analysis
         private void BinaryMatrixBtn(object sender, RoutedEventArgs e)
         {
             this.Hide();
-            SettingWindow settingWindow = new();
+
+            bool condition = true;
+            SettingWindow settingWindow = new(true);
             settingWindow.Show();
         }
     }

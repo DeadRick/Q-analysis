@@ -25,10 +25,6 @@ namespace Q_analysis
             foreach (var el in listOfRows)
             {
                 string[] splitEl = el.Split(';');
-                if (el == "r3;r11")
-                {
-                    int a = 1;
-                }
                 if (splitEl.Length == 1)
                 {
                     if (visited.Contains(splitEl[0])) {

@@ -21,6 +21,8 @@ namespace Q_analysis
     public partial class SettingWindow : Window, INotifyPropertyChanged
     {
         private string path;
+        private bool v;
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         private void InitializeSettingWindow()
@@ -54,6 +56,17 @@ namespace Q_analysis
 
         }
 
+        public SettingWindow(bool v)
+        {
+            InitializeSettingWindow();
+            if (v)
+            {
+                slicingText.Visibility = Visibility.Collapsed;
+                slicingValue.Visibility = Visibility.Collapsed;
+                slicingButtons.Visibility = Visibility.Collapsed;
+            }
+        }
+
         public IList MatrixSize { get; private set; }
         public DataTable Matrix { get; set; }
         public DataTable OldMatrix { get; set; }
@@ -84,7 +97,7 @@ namespace Q_analysis
             this.Matrix = new DataTable();
             this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
             for (var i = 0; i < sizeM; i++)
-                Matrix.Columns.Add(new DataColumn("c" + (i + 1), typeof(int)));
+                Matrix.Columns.Add(new DataColumn("y" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
             {
                 var r = Matrix.NewRow();
@@ -111,7 +124,7 @@ namespace Q_analysis
             this.Matrix = new DataTable();
             this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
             for (var i = 0; i < sizeM; i++)
-                Matrix.Columns.Add(new DataColumn("c" + (i + 1), typeof(int)));
+                Matrix.Columns.Add(new DataColumn("y" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
             {
                 var r = Matrix.NewRow();
@@ -206,13 +219,13 @@ namespace Q_analysis
                 for (int j = 0; j < Matrix.Columns.Count; j++)
                 {
                     DataRow row = Matrix.Rows[i];
-                    int element = Convert.ToInt32(row["c" + j.ToString()]);
+                    int element = Convert.ToInt32(row["y" + j.ToString()]);
                     if (element >= slice)
                     {
-                        row["c" + (j + 1)] = 1;
+                        row["y" + (j + 1)] = 1;
                     } else
                     {
-                        row["c" + (j + 1)] = 0;
+                        row["y" + (j + 1)] = 0;
                     }
                 }
             }
@@ -269,6 +282,10 @@ namespace Q_analysis
 
         private void acceptBtn(object sender, RoutedEventArgs e)
         {
+            if (Matrix == null)
+            {
+                return;
+            }
             if (resultWindow is null)
             {
                 resultWindow = new ResultWindow(this, this.Matrix);
@@ -279,6 +296,12 @@ namespace Q_analysis
         
             resultWindow.Show();
             this.Hide();
+        }
+
+        private void questionMarkBtn(object sender, RoutedEventArgs e)
+        {
+            HelpModalWindow hp = new();
+            hp.Show();
         }
     }
 }

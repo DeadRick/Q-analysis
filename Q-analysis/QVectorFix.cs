@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Navigation;
 
 namespace Q_analysis
 {
@@ -47,8 +48,8 @@ namespace Q_analysis
                         int count = 0;
                         for (int k = 0; k < rowSize; k++)
                         {
-                            int el1 = Convert.ToInt32(firstRow["c" + (k + 1)]);
-                            int el2 = Convert.ToInt32(secondRow["c" + (k + 1)]);
+                            int el1 = Convert.ToInt32(firstRow["y" + (k + 1)]);
+                            int el2 = Convert.ToInt32(secondRow["y" + (k + 1)]);
 
                             if (el1 == 1 && el2 == 1)
                             {
@@ -157,9 +158,51 @@ namespace Q_analysis
             finalDict.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public int getCastiEcc(int row)
+        public double getDucksteinEcc(int row)
         {
-            int q1 = -1, q2 = -1;
+            double qMax = finalDict.First().Key;
+            double qSum = 0;
+            int rowPositon = -1;
+
+            foreach (var item in finalDict.Keys)
+            {
+                if (rowPositon != -1)
+                    break;
+                foreach (var el in finalDict[item])
+                {
+                    if (rowPositon != -1)
+                        break;
+
+                    if (el.Contains(row))
+                    {
+                        rowPositon = item;
+                    }
+                }
+            }
+
+            foreach (var item in finalDict.Keys)
+            {
+                if (item <= rowPositon)
+                {
+                    foreach (var el in finalDict[item])
+                    {
+                        if (el.Contains(row))
+                        {
+                            double qI = el.Count;
+                            double face = item - 1;
+                            qSum += (face / qI);
+                        }
+                    }
+                }
+            }
+            double res = (2 * qSum) / (qMax * (qMax - 1));
+            return res;
+
+        }
+
+        public double getCastiEcc(int row)
+        {
+            double q1 = -1, q2 = -1;
 
             foreach (var item in finalDict.Keys)
             {
@@ -182,6 +225,10 @@ namespace Q_analysis
                 }
             }
 
+            if (q1 == -1 && q2 == -1)
+            {
+                return 0;
+            }
             return ((q1 - q2) / (q2 + 1));
         }
 
@@ -193,12 +240,13 @@ namespace Q_analysis
                 res.Append("{");
                 for (int i = 0; i < item.Count; i++)
                 {
+            
                     if (i == item.Count - 1)
                     {
-                        res.Append("r" + (item[i] + 1));
+                        res.Append("x" + (item[i] + 1));
                     } else
                     {
-                        res.Append("r" + (item[i] + 1) + ", ");
+                        res.Append("x" + (item[i] + 1) + ", ");
                     }
                 }
                 res.Append("} ");
@@ -206,5 +254,19 @@ namespace Q_analysis
 
             return res;
         }
+
+        public StringBuilder QVectorString()
+        {
+            StringBuilder res = new StringBuilder();
+            res.Append("Q-Vector = ( ");
+            foreach (var item in finalDict.Keys)
+            {
+                res.Append(finalDict[item].Count + " ");
+            }
+            res.Append(")");
+            return res;
+        }
+
+        
     }
 }

@@ -17,44 +17,53 @@
             <RowDefinition Height="auto" MaxHeight="500px" />
             <RowDefinition Height="auto" MaxHeight="500px" />
             <RowDefinition Height="auto" MaxHeight="500px" />
+            <RowDefinition Height="auto" MaxHeight="500px" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <TextBlock>Project Name</TextBlock>
-        <TextBlock Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center">Results</TextBlock>
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0, 20, 0, 0" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center">Results</TextBlock>
+        <TextBlock x:Name="qVectorText" Grid.Row="2" Margin="0, 50, 0, 0" Grid.Column="1" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding qVectorInfo}"></TextBlock>
 
-        <TextBlock Grid.Row="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Eccentricity</TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="1" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Q-vector</TextBlock>
-        <TextBlock Grid.Row="2" Grid.Column="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Binary matrix</TextBlock>
+        <TextBlock Grid.Row="3" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Eccentricity</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="1" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Q-vector</TextBlock>
+        <TextBlock Grid.Row="3" Grid.Column="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Binary matrix</TextBlock>
 
-        <ListView x:Name="qVector" Grid.Row="3" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="1" VerticalAlignment="Top" MaxHeight="500px">
+        <ListView x:Name="qVector" Grid.Row="4" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="1" VerticalAlignment="Top" MaxHeight="500px">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Dimension" DisplayMemberBinding="{Binding Dimension}"/>
-                    <GridViewColumn Header="Q" DisplayMemberBinding="{Binding QValue}"/>
-                    <GridViewColumn Header="Connectivity components" Width="100" DisplayMemberBinding="{Binding Vectors}"/>
+                    <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding Dimension}"/>
+                    <GridViewColumn Header="Qi" DisplayMemberBinding="{Binding QValue}"/>
+                    <GridViewColumn Header="Connectivity components">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Vectors}" TextWrapping="Wrap" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <!--<GridViewColumn Header="Connectivity components" DisplayMemberBinding="{Binding Vectors}"/>-->
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="eccentricity" d:ItemsSource="{DynamicResource ResourceKey=eccArray}" Grid.Row="3" Grid.Column="0" VerticalAlignment="Top" MaxHeight="500px">
+        <ListView x:Name="eccentricity" d:ItemsSource="{DynamicResource ResourceKey=eccArray}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" MaxHeight="500px">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="100px" Header="Following J. Casti" DisplayMemberBinding="{Binding eccCasti}"/>
-                    <GridViewColumn Width="125px" Header="Following D.Duckstein" DisplayMemberBinding="{Binding eccDuck}"/>
+                    <GridViewColumn  Header="Following J. Casti" DisplayMemberBinding="{Binding eccCasti}"/>
+                    <GridViewColumn  Header="Following D.Duckstein" DisplayMemberBinding="{Binding eccDuck}"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="0" Grid.Row="4"  Width="70" Height="30">
+        <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="0" Grid.Row="5"  Width="70" Height="30">
             <Button  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
         </Border>
 
-        <Grid Grid.Row="3" Grid.Column="2" HorizontalAlignment="Center">
+        <Grid Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <DataGrid x:Name="visualMatrix" Grid.Column="0" Grid.Row="0" ItemsSource="{Binding matrix}"  MaxHeight="500px" VerticalAlignment="Top" IsReadOnly="True" CanUserResizeColumns="False" CanUserReorderColumns="False"/>
+            <DataGrid x:Name="visualMatrix" ItemsSource="{Binding matrix}"  MaxHeight="500px" VerticalAlignment="Top" IsReadOnly="True" CanUserResizeColumns="False" CanUserReorderColumns="False"/>
 
 
         </Grid>

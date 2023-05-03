@@ -41,6 +41,10 @@
             <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
                     FontSize="14" Background="#546DE5" Foreground="White" Click="loadBtn">Load</Button>
         </Border>
+            <Border Margin="20, 0" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="questionMarkBtn">?</Button>
+            </Border>
             <TextBlock x:Name="loadMessage" Visibility="Hidden" Foreground="DarkGray" VerticalAlignment="Center" Margin="30, 0, 0, 0"> Matrix was successfully saved.</TextBlock>
         </StackPanel>
         <StackPanel Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" Margin="0, 25, 0, 0">
@@ -54,7 +58,7 @@
             <TextBlock x:Name="projectNmae" FontWeight="DemiBold" Margin="0, 0, 0, 15"></TextBlock>
 
             <TextBlock>Enter size of matrix:</TextBlock> 
-            <StackPanel Margin="0, 5, 0, 5" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Top">
+            <StackPanel Margin="0, 5, 0, 5" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top">
                 <TextBox x:Name="nSize" Margin="0, 0, 10, 0" Width="50" MaxHeight="25"/>
                 <TextBox x:Name="mSize" Width="50" MaxHeight="25"></TextBox>
             </StackPanel>
@@ -68,9 +72,14 @@
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="Button_Click">Back</Button>
                 </Border>
             </StackPanel>
-            <TextBlock Margin="0, 15, 0, 0">Slicing parameter: </TextBlock>
+
+            <TextBlock Margin="0, 15">Type of eccentricity:</TextBlock>
+            <CheckBox Margin="0, 0, 0, 15" Content="Following J. Casti"/>
+            <CheckBox Content="Following L. Duckstein"/>
+
+            <TextBlock x:Name="slicingText" Margin="0, 15, 0, 0">Slicing parameter:</TextBlock>
             <TextBox x:Name="slicingValue" Margin="0, 10, 0, 0"></TextBox>
-            <StackPanel Orientation="Horizontal">            
+            <StackPanel x:Name="slicingButtons" Orientation="Horizontal">
                 <Border CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="2" Grid.Row="0"  Width="40" Height="25" Margin="0, 10, 0, 0">
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="sliceButton">Slice</Button>
                 </Border>
@@ -78,9 +87,6 @@
                     <Button Width="40" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#96A8FC" Foreground="White" Click="returnSliceButton">Return</Button>
                 </Border>
             </StackPanel>
-            <TextBlock Margin="0, 15">Type of eccentricity: </TextBlock>
-            <CheckBox Margin="0, 0, 0, 15" Content="J. Casti"/>
-            <CheckBox Content="L. Duckstein"/>
 
         </StackPanel>
 

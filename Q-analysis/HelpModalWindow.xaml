@@ -1,0 +1,19 @@
+﻿<Window x:Class="Q_analysis.HelpModalWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Q_analysis"
+        mc:Ignorable="d"
+        Title="Binary Matrix" SizeToContent="WidthAndHeight"
+        WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
+        ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Width="280" Text="A binary matrix is a representation of a binary relation defined on the Cartesian product of X × Y, where  X = {x1, x2, ..., xn} and Y = {y1, y2, ..., ym}." TextWrapping="Wrap" Margin="10" Grid.Row="0"/>
+        <Button Content="OK" Margin="10" Grid.Row="1" HorizontalAlignment="Center" Width="75" Click="OkButton_Click"/>
+    </Grid>
+</Window>
