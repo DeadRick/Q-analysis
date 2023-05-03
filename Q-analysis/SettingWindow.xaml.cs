@@ -21,7 +21,7 @@ namespace Q_analysis
     public partial class SettingWindow : Window, INotifyPropertyChanged
     {
         private string path;
-        private bool v;
+        private bool isBinaryMatrix;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -35,7 +35,7 @@ namespace Q_analysis
             this.DefaultValue = 1;
             saveBtnBorder.BorderBrush.Opacity = 0.25;
             saveBtn.Background.Opacity = 0.25;
-            projectNmae.Text = QAnalysisFunc.GetNameOfProject();
+            projectName.Text = QAnalysisFunc.GetNameOfProject();
         }
 
         public SettingWindow()
@@ -83,7 +83,6 @@ namespace Q_analysis
             int.TryParse(sizeN, out nSizeMatrix); //#TODO: Try Parse. Incorrect values
             int.TryParse(sizeM, out mSizeMatrix); //#TODO: Try Parse. Incorrect values
             this.UpdateMatrix(nSizeMatrix, mSizeMatrix);
-      
         }
 
         void UpdateMatrix(int sizeN, int sizeM)
@@ -106,10 +105,10 @@ namespace Q_analysis
                     r[c] = DefaultValue;
                 }
                 Matrix.Rows.Add(r);
-
             }
             // this.Matrix = dt.DefaultView;
             matrixMessage.Visibility = Visibility.Hidden;
+        
             PropertyChanged(this, new PropertyChangedEventArgs("Matrix"));
         }
             
@@ -136,6 +135,7 @@ namespace Q_analysis
                     r[c] = num;
                 }
                 Matrix.Rows.Add(r);
+                
             }
             if (PropertyChanged != null)
             {
@@ -205,6 +205,7 @@ namespace Q_analysis
             if (slicingValue.Text != "" && slicingValue.Text is not null)
             {
                 slice = int.Parse(slicingValue.Text); // #TODO Обработка исключений
+                slicingParameter.Text = "Slicing parameter: θ = " + slice + ".";
             } else
             {
                 return;
@@ -229,6 +230,8 @@ namespace Q_analysis
                     }
                 }
             }
+
+    
             slicingValue.Text = "";
         }
 
@@ -302,6 +305,12 @@ namespace Q_analysis
         {
             HelpModalWindow hp = new();
             hp.Show();
+        }
+
+        private void DataGridLoading(object sender, DataGridRowEventArgs e)
+        {
+            string res = "x" + (e.Row.GetIndex() + 1);
+            e.Row.Header = res;
         }
     }
 }

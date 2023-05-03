@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:Q_analysis"
         mc:Ignorable="d"
         Title="ResultWindow" Height="450" Width="800">
+    <Frame>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -28,12 +29,12 @@
         <TextBlock Grid.Row="3" Grid.Column="1" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Q-vector</TextBlock>
         <TextBlock Grid.Row="3" Grid.Column="2" Margin="0, 15, 0, 0" HorizontalAlignment="Center" VerticalAlignment="Center"  FontSize="12" FontWeight="DemiBold">Binary matrix</TextBlock>
 
-        <ListView x:Name="qVector" Grid.Row="4" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="1" VerticalAlignment="Top" MaxHeight="500px">
+        <ListView x:Name="qVector" Grid.Row="4" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="1" Margin="0, 10, 0, 0" VerticalAlignment="Top" MaxHeight="300">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding Dimension}"/>
-                    <GridViewColumn Header="Qi" DisplayMemberBinding="{Binding QValue}"/>
-                    <GridViewColumn Header="Connectivity components">
+                    <GridViewColumn Width="30" Header="Qi" DisplayMemberBinding="{Binding QValue}"/>
+                    <GridViewColumn  Header="Connectivity components" Width="200">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Vectors}" TextWrapping="Wrap" />
@@ -44,36 +45,39 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView x:Name="eccentricity" d:ItemsSource="{DynamicResource ResourceKey=eccArray}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top" MaxHeight="500px">
+        <ListView x:Name="eccentricity" Margin="0, 10, 0, 0" Width="Auto" MaxWidth="300" MaxHeight="300" d:ItemsSource="{DynamicResource ResourceKey=eccArray}" Grid.Row="4" Grid.Column="0" VerticalAlignment="Top">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn  Header="Following J. Casti" DisplayMemberBinding="{Binding eccCasti}"/>
-                    <GridViewColumn  Header="Following D.Duckstein" DisplayMemberBinding="{Binding eccDuck}"/>
+                    <GridViewColumn Width="Auto" Header="Following J. Casti" DisplayMemberBinding="{Binding eccCasti}"/>
+                    <GridViewColumn Width="Auto" Header="Following D.Duckstein" DisplayMemberBinding="{Binding eccDuck}"/>
                 </GridView>
             </ListView.View>
         </ListView>
         <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="5">
-            <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+            <Border Margin="20, 0, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
                 <Button  BorderThickness="0" Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
             </Border>
 
-            <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+            <Border Margin="0, 0, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
                 <Button  BorderThickness="0"  Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="visualBtn" >Visualisation</Button>
+            </Border>
+
+            <Border Margin="0, 0, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30">
+                <Button  BorderThickness="0"  Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="compareBtn"  >Compare</Button>
             </Border>
         </StackPanel>
 
-        <Grid Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center">
+        <Grid Grid.Row="4" Grid.Column="2" Width="Auto" MaxWidth="350" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <DataGrid x:Name="visualMatrix" ItemsSource="{Binding matrix}"  MaxHeight="500px" VerticalAlignment="Top" IsReadOnly="True" CanUserResizeColumns="False" CanUserReorderColumns="False"/>
-
-
+            <DataGrid  Width="Auto" MaxWidth="350" MaxHeight="300" Margin="0, 10, 0, 0" x:Name="visualMatrix" ItemsSource="{Binding matrix}" VerticalAlignment="Top" IsReadOnly="True" CanUserResizeColumns="False" CanUserReorderColumns="False" LoadingRow="DataGridLoading"/>
         </Grid>
 
 
     </Grid>
+    </Frame>
 </Window>

@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -92,8 +93,8 @@ namespace Q_analysis
 
             for (int i = 0; i < matrix.Rows.Count; i++)
             {
-                string data1 = "ecc(x" + (i + 1) + ") = " + qv.getCastiEcc(i).ToString();
-                string data2 = "ecc(x" + (i + 1) + ") = " + qv.getDucksteinEcc(i).ToString();
+                string data1 = "ecc(x" + (i + 1) + ") = " + qv.getCastiEcc(i).ToString("F3");
+                string data2 = "ecc(x" + (i + 1) + ") = " + qv.getDucksteinEcc(i).ToString("F3");
                 eccsList.Add(new { eccCasti = data1, eccDuck =  data2});
             }
 
@@ -110,10 +111,13 @@ namespace Q_analysis
             this.WindowState = WindowState.Maximized;
             qv = null;
 
+
             dg.ItemsSource = matrix.DefaultView;
             //dg.RowHeaderVisible = true;
             dg.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
             dg.IsReadOnly = true;
+
+
 
             for (int i = 0; i < dg.Items.Count; i++)
             {
@@ -140,6 +144,18 @@ namespace Q_analysis
         {
             VisualisationWindow vw = new(qv);
             vw.Show();
+        }
+
+        private void DataGridLoading(object sender, DataGridRowEventArgs e)
+        {
+            string res = "x" + (e.Row.GetIndex() + 1);
+            e.Row.Header = res;
+        }
+
+        private void compareBtn(object sender, RoutedEventArgs e)
+        {
+            ComparePage comparePage = new();
+            comparePage.ShowsNavigationUI = true;
         }
     }
 }
