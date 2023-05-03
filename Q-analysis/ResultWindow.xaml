@@ -52,9 +52,15 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2" Grid.Column="0" Grid.Row="5"  Width="70" Height="30">
-            <Button  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
-        </Border>
+        <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="5">
+            <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+                <Button  BorderThickness="0" Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White"  Click="check">Settings</Button>
+            </Border>
+
+            <Border Margin="20px" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+                <Button  BorderThickness="0"  Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="visualBtn" >Visualisation</Button>
+            </Border>
+        </StackPanel>
 
         <Grid Grid.Row="4" Grid.Column="2" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>

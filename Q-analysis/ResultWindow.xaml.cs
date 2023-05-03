@@ -29,6 +29,7 @@ namespace Q_analysis
         DataGrid dg = new DataGrid();
         Dictionary<int, QVector> countDict = new Dictionary<int, QVector>();
         Dictionary<int, List<int>> rowsList = new Dictionary<int, List<int>>();
+        QVectorFix qv;
 
 
         public void Update(DataTable oldMatrix)
@@ -73,7 +74,7 @@ namespace Q_analysis
         
             }
 
-            QVectorFix qv = new QVectorFix(rowsList, matrix);
+            qv = new QVectorFix(rowsList, matrix);
 
             //qVectorSort();
 
@@ -107,7 +108,7 @@ namespace Q_analysis
             this.settingWindow = settingWindow;
             this.matrix = matrix;
             this.WindowState = WindowState.Maximized;
-
+            qv = null;
 
             dg.ItemsSource = matrix.DefaultView;
             //dg.RowHeaderVisible = true;
@@ -133,6 +134,12 @@ namespace Q_analysis
         {
             this.Hide();
             settingWindow.Show();
+        }
+
+        private void visualBtn(object sender, RoutedEventArgs e)
+        {
+            VisualisationWindow vw = new(qv);
+            vw.Show();
         }
     }
 }

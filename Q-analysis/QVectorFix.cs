@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 
 namespace Q_analysis
 {
-    internal class QVectorFix
+    public class QVectorFix
     {
         private Dictionary<int, List<int>> rowsList;
         private DataTable matrix;
@@ -267,6 +267,32 @@ namespace Q_analysis
             return res;
         }
 
-        
+        public double[] QVectorDouble()
+        {
+            double[] res = new double[finalDict.Count];
+
+            int i = 0;
+            foreach (var item in finalDict.Keys) 
+            {
+                res[i] = (double)finalDict[item].Count;
+                i++;
+            }
+
+            return res;
+        }
+
+        public double[] QVectorDoubleSize()
+        {
+            double[] res = new double[finalDict.Count];
+
+            int i = 0;
+            foreach (var item in finalDict.Keys)
+            {
+                res[i] = i;
+                i++;
+            }
+
+            return res;
+        }
     }
 }
