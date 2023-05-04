@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Q_analysis"
         mc:Ignorable="d"
         Title="ResultWindow" Height="450" Width="800">
-    <Frame>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -21,7 +21,8 @@
             <RowDefinition Height="auto" MaxHeight="500px" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock>Project Name</TextBlock>
+
+        <TextBlock x:Name="projectNameText">Project Name</TextBlock>
         <TextBlock Grid.Row="1" Grid.Column="1" Margin="0, 20, 0, 0" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center">Results</TextBlock>
         <TextBlock x:Name="qVectorText" Grid.Row="2" Margin="0, 50, 0, 0" Grid.Column="1" VerticalAlignment="Center" FontSize="18" FontWeight="DemiBold" HorizontalAlignment="Center" Text="{Binding qVectorInfo}"></TextBlock>
 
@@ -79,5 +80,4 @@
 
 
     </Grid>
-    </Frame>
 </Window>

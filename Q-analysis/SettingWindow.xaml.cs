@@ -291,7 +291,7 @@ namespace Q_analysis
             }
             if (resultWindow is null)
             {
-                resultWindow = new ResultWindow(this, this.Matrix);
+                resultWindow = new ResultWindow(this, this.Matrix, projectName.Text);
             } else
             {
                 resultWindow.Update(this.Matrix);

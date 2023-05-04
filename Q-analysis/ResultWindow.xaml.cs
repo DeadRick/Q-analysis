@@ -103,9 +103,8 @@ namespace Q_analysis
         }
 
 
-        public ResultWindow(SettingWindow settingWindow, DataTable matrix)
+        public ResultWindow(SettingWindow settingWindow, DataTable matrix, string projectName)
         {
-
             this.settingWindow = settingWindow;
             this.matrix = matrix;
             this.WindowState = WindowState.Maximized;
@@ -116,7 +115,6 @@ namespace Q_analysis
             //dg.RowHeaderVisible = true;
             dg.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;
             dg.IsReadOnly = true;
-
 
 
             for (int i = 0; i < dg.Items.Count; i++)
@@ -130,6 +128,8 @@ namespace Q_analysis
             dg.HeadersVisibility = DataGridHeadersVisibility.None;
 
             InitializeComponent();
+            this.projectNameText.Text = projectName;
+
             qAnalysisProcedure();
 
         }
@@ -154,8 +154,8 @@ namespace Q_analysis
 
         private void compareBtn(object sender, RoutedEventArgs e)
         {
-            ComparePage comparePage = new();
-            comparePage.ShowsNavigationUI = true;
+            CompareWindow compareWindow = new CompareWindow(qv);
+            compareWindow.Show();
         }
     }
 }
