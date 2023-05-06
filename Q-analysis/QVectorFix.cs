@@ -155,7 +155,7 @@ namespace Q_analysis
                     }
                 }
             }
-            finalDict.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+            finalDict = finalDict.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
         }
 
         public double getDucksteinEcc(int row)
@@ -237,7 +237,7 @@ namespace Q_analysis
             StringBuilder res = new();
             foreach (var item in finalDict[dim])
             {
-                res.Append("{");
+                res.Append("{ ");
                 for (int i = 0; i < item.Count; i++)
                 {
             
@@ -249,7 +249,7 @@ namespace Q_analysis
                         res.Append("x" + (item[i] + 1) + ", ");
                     }
                 }
-                res.Append("} ");
+                res.Append(" } ");
             }
 
             return res;
@@ -271,11 +271,11 @@ namespace Q_analysis
         {
             double[] res = new double[finalDict.Count];
 
-            int i = 0;
+            int i = finalDict.Count - 1;
             foreach (var item in finalDict.Keys) 
             {
                 res[i] = (double)finalDict[item].Count;
-                i++;
+                i--;
             }
 
             return res;
@@ -285,11 +285,11 @@ namespace Q_analysis
         {
             double[] res = new double[finalDict.Count];
 
-            int i = 0;
+            int i = finalDict.Count - 1;
             foreach (var item in finalDict.Keys)
             {
                 res[i] = i;
-                i++;
+                i--;
             }
 
             return res;

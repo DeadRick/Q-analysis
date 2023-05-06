@@ -54,6 +54,9 @@ namespace Q_analysis
                 LoadProcedure(files[0]);
             }
 
+            string[] splitPath = files[0].Split('\\');
+            projectName.Text = splitPath[splitPath.Length - 1];
+
         }
 
         public SettingWindow(bool v)
@@ -268,6 +271,7 @@ namespace Q_analysis
                 LoadProcedure(ofd);
 
             }
+
         }
 
         private void returnSliceButton(object sender, RoutedEventArgs e)

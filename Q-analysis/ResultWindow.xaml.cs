@@ -47,33 +47,7 @@ namespace Q_analysis
 
         private void qAnalysisProcedure() {
             rowsList.Clear();
-            int count = 0;
-            for (int i = 0; i < matrix.Rows.Count; i++)
-            {
-                count = 0;
-                for (int j = 0; j < matrix.Columns.Count; j++)
-                {
-                    DataRow row = matrix.Rows[i];
-                    int element = Convert.ToInt32(row["y" + (j + 1)]);
-                    if (element == 1)
-                    {
-                        count++;
-                    }
-                }
-
-
-                for (int k = count; k > 0; k--)
-                {
-                    if (rowsList.ContainsKey(k))
-                    {
-                        rowsList[k].Add(i);
-                    } else
-                    {
-                        rowsList[k] = new List<int>() { i };
-                    }
-                }
-        
-            }
+            rowsList = QAnalysisFunc.GetRowsList(matrix);
 
             qv = new QVectorFix(rowsList, matrix);
 

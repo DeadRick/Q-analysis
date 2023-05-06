@@ -14,14 +14,15 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" MaxHeight="500px"/>
-            <RowDefinition Height="auto" MaxHeight="500px" />
+            <RowDefinition Height="1*" MaxHeight="500px" />
+            <RowDefinition Height="1*" MaxHeight="500px" />
             <RowDefinition Height="auto" MaxHeight="500px" />
         </Grid.RowDefinitions>
 
-        <ScottPlot:WpfPlot Grid.Column="0" Grid.Row="1" VerticalAlignment="Top"  x:Name="WpfPlot1"/>
-        <ScottPlot:WpfPlot Grid.Column="2" Grid.Row="1" Height="200" VerticalAlignment="Top" x:Name="WpfPlot2"/>
+        <ScottPlot:WpfPlot Grid.Column="0" Grid.Row="1" MinHeight="200" Height="Auto" VerticalAlignment="Top"  x:Name="WpfPlot1"/>
+        <ScottPlot:WpfPlot Grid.Column="2" Grid.Row="1" MinHeight="200" Height="Auto" VerticalAlignment="Top" x:Name="WpfPlot2"/>
 
-        <ListView x:Name="qVectorFirstModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arrayFirstModel}" Grid.Column="0" Margin="0, 10, 0, 0" VerticalAlignment="Top" MaxHeight="300" MouseDoubleClick="FirstModel_DoubleClick">
+        <ListView x:Name="qVectorFirstModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arrayFirstModel}" Grid.Column="0" Margin="50, 10, 20, 0" VerticalAlignment="Top" MaxHeight="300" MouseDoubleClick="FirstModel_DoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding DimensionFirstModel}"/>
@@ -38,7 +39,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView x:Name="qVectorSecondModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arraySecondModel}" Grid.Column="2" Margin="0, 10, 0, 0" VerticalAlignment="Top" MaxHeight="300">
+        <ListView x:Name="qVectorSecondModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arraySecondModel}" Grid.Column="2" Margin="40, 10, 20, 0" VerticalAlignment="Top" MaxHeight="300">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding DimensionSecondModel}"/>
@@ -47,9 +48,6 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding VectorsSecondModel}" TextWrapping="Wrap">
-                                    <TextBlock.Background>
-                                        <SolidColorBrush Color="{Binding BackgroundColor}"/>
-                                    </TextBlock.Background>
                                 </TextBlock>
 
                             </DataTemplate>
@@ -60,7 +58,9 @@
             </ListView.View>
         </ListView>
 
+        <Border Grid.Column="0" Grid.Row="3" Margin="50,20, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="120" Height="30">
+            <Button  BorderThickness="0"  Width="120" Height="31" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="loadSecondBtn"  >Load Second Model</Button>
+        </Border>
 
-        <TextBlock x:Name="testblock">Rrr</TextBlock>
     </Grid>
 </Window>
