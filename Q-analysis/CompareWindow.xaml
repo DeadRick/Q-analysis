@@ -13,10 +13,10 @@
             <ColumnDefinition Width="1*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" MaxHeight="500px"/>
-            <RowDefinition Height="1*" MaxHeight="500px" />
-            <RowDefinition Height="1*" MaxHeight="500px" />
-            <RowDefinition Height="auto" MaxHeight="500px" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
 
         <ScottPlot:WpfPlot Grid.Column="0" Grid.Row="1" MinHeight="200" Height="Auto" VerticalAlignment="Top"  x:Name="WpfPlot1"/>

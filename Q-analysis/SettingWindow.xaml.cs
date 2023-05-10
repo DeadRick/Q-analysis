@@ -29,7 +29,9 @@ namespace Q_analysis
         {
             InitializeComponent();
             //one
+            dataGrid.RowDetailsVisibilityMode = DataGridRowDetailsVisibilityMode.VisibleWhenSelected;   
             dataGrid.Visibility = Visibility.Hidden;
+           
             this.MatrixSize = Enumerable.Range(1, 20).ToArray();
             this.DataContext = this;
             this.DefaultValue = 1;
@@ -53,10 +55,11 @@ namespace Q_analysis
             {
                 LoadProcedure(files[0]);
             }
-
-            string[] splitPath = files[0].Split('\\');
-            projectName.Text = splitPath[splitPath.Length - 1];
-
+            if (files.Length != 0)
+            {
+                string[] splitPath = files[0].Split('\\');
+                projectName.Text = splitPath[splitPath.Length - 1].Split('.')[0];
+            }
         }
 
         public SettingWindow(bool v)
@@ -111,7 +114,7 @@ namespace Q_analysis
             }
             // this.Matrix = dt.DefaultView;
             matrixMessage.Visibility = Visibility.Hidden;
-        
+           
             PropertyChanged(this, new PropertyChangedEventArgs("Matrix"));
         }
             
@@ -123,6 +126,7 @@ namespace Q_analysis
                 saveBtnBorder.BorderBrush.Opacity = 1;
                 saveBtn.Background.Opacity = 1;
             }
+        
             this.Matrix = new DataTable();
             this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
             for (var i = 0; i < sizeM; i++)
@@ -156,8 +160,7 @@ namespace Q_analysis
             this.Close();
         }
 
-        // Click event to save a matrix
-        private async void SaveMatrix(object sender, RoutedEventArgs e)
+        private async void SaveMatrixProcedure()
         {
             // #TODO Change to the current project
             // #TODO Add HINT for unvisible matrix
@@ -165,8 +168,23 @@ namespace Q_analysis
             {
                 return;
             }
-            string dir = Directory.GetCurrentDirectory() + "\\projects\\" + QAnalysisFunc.GetNameOfProject();
-            using StreamWriter file = new(dir + "\\" + QAnalysisFunc.GetNameOfProject() + ".csv");
+            string dir = dir = Directory.GetCurrentDirectory() + "\\projects\\" + QAnalysisFunc.GetNameOfProject();
+            string pathName;
+            if (slicingValue.Text != "")
+            {
+                int sliceValue;
+                if (!int.TryParse(slicingValue.Text, out sliceValue))
+                {
+                    return;
+                }
+
+                pathName = dir + "\\" + projectName.Text + "_" + slicingValue.Text + ".csv";
+            }
+            else
+            {
+                pathName = dir + "\\" + projectName.Text + ".csv";
+            }
+            using StreamWriter file = new(pathName);
             var dt = (DataTable)(this.Matrix);
             for (int i = 0; i < dt.Rows.Count; i++)
             {
@@ -194,6 +212,12 @@ namespace Q_analysis
             }
             loadMessage.Visibility = Visibility.Visible;
             // #TODO Сделать так, чтобы надпись на 5 минут появлялась 
+        }
+
+        // Click event to save a matrix
+        private async void SaveMatrix(object sender, RoutedEventArgs e)
+        {
+            SaveMatrixProcedure();
         }
 
  
@@ -234,6 +258,7 @@ namespace Q_analysis
                 }
             }
 
+            SaveMatrixProcedure();
     
             slicingValue.Text = "";
         }
@@ -252,6 +277,7 @@ namespace Q_analysis
         // Load Matrix from the file
         private void LoadProcedure(OpenFileDialog ofd)
         {
+            projectName.Text = ofd.FileName.Split('\\').Last().Split('.')[0];
             var file = File.ReadAllLines(ofd.FileName);
             LoadFile(file);
         }

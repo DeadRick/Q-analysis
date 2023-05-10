@@ -7,6 +7,28 @@
         mc:Ignorable="d"
         Title="VisualisationWindow" Height="450" Width="800">
     <Grid>
-        <ScottPlot:WpfPlot x:Name="WpfPlot1" />
+        <StackPanel>
+            <ScottPlot:WpfPlot x:Name="WpfPlot1" MinHeight="200" MaxHeight="600" Height="Auto" Width="Auto"/>
+            <ListView x:Name="qVectorFirstModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=array}" Grid.Column="0" Margin="50, 10, 20, 0" VerticalAlignment="Top" MaxHeight="300" MouseDoubleClick="FirstModel_DoubleClick">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding DimensionFirstModel}"/>
+                        <GridViewColumn Width="30" Header="Qi" DisplayMemberBinding="{Binding QValueFirstModel}"/>
+                        <GridViewColumn  Header="Connectivity components" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding VectorsFirstModel}" TextWrapping="Wrap" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <!--<GridViewColumn Header="Connectivity components" DisplayMemberBinding="{Binding Vectors}"/>-->
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <Border Margin="50, 20, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+                <Button  BorderThickness="0" Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White">Close</Button>
+            </Border>
+        </StackPanel>
     </Grid>
 </Window>

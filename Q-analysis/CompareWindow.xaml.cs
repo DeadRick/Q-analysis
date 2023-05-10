@@ -28,18 +28,15 @@ namespace Q_analysis
     /// </summary>
     public partial class CompareWindow : Window
     {
-        QVectorFix qvFirst;
-        QVectorFix qvSecond;
+        QVector qvFirst;
+        QVector qvSecond;
         private List<object> items = new List<object>();
         List<ListViewItem> items_new = new List<ListViewItem>();
         Dictionary<int, List<int>> rowsListSecondModel = new Dictionary<int, List<int>>();
         public DataTable MatrixSecondModel { get; set; }
 
-        public CompareWindow()
-        {
-        }
 
-        public CompareWindow(QVectorFix qv)
+        public CompareWindow(QVector qv)
         {
             InitializeComponent();
             this.qvFirst = qv;
@@ -122,11 +119,15 @@ namespace Q_analysis
 
         private void FirstModel_DoubleClick(object sender, MouseButtonEventArgs e)
         {
-            object r = qVectorFirstModel.SelectedItem;
+            object selectedItem = qVectorFirstModel.SelectedItem;   
+            if (selectedItem is null)
+            {
+                return;
+            }
             WpfPlot1.Plot.Clear();
             LoadFirstPlot();
-            string value1 = r.ToString().Split('=')[2].Split(',')[0];
-            string value2 = r.ToString().Split('=')[3].Split(',')[0];
+            string? value1 = selectedItem.ToString().Split('=')[2].Split(',')[0];
+            string? value2 = selectedItem.ToString().Split('=')[3].Split(',')[0];
             double x = double.Parse(value1);
 
             //x = (qvFirst.QVectorDouble().Length - 1) - x;
@@ -167,7 +168,7 @@ namespace Q_analysis
                     MatrixSecondModel.Rows.Add(r);
                 }
                 rowsListSecondModel = QAnalysisFunc.GetRowsList(MatrixSecondModel);
-                this.qvSecond = new QVectorFix(rowsListSecondModel, MatrixSecondModel);
+                this.qvSecond = new QVector(rowsListSecondModel, MatrixSecondModel);
                 LoadSecondPlot();
             }
         }

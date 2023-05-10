@@ -28,16 +28,14 @@ namespace Q_analysis
         private List<object> eccsList = new List<object>();
         private List<object> qVectorStr = new List<object>();
         DataGrid dg = new DataGrid();
-        Dictionary<int, QVector> countDict = new Dictionary<int, QVector>();
         Dictionary<int, List<int>> rowsList = new Dictionary<int, List<int>>();
-        QVectorFix qv;
+        QVector qv;
 
 
         public void Update(DataTable oldMatrix)
         {
             items.Clear();
             eccsList.Clear();
-            countDict.Clear();
             qVector.ItemsSource = null;
             eccentricity.ItemsSource = null;
             this.matrix = oldMatrix;
@@ -49,7 +47,7 @@ namespace Q_analysis
             rowsList.Clear();
             rowsList = QAnalysisFunc.GetRowsList(matrix);
 
-            qv = new QVectorFix(rowsList, matrix);
+            qv = new QVector(rowsList, matrix);
 
             //qVectorSort();
 

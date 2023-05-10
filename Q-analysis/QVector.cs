@@ -1,274 +1,297 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.DirectoryServices.ActiveDirectory;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Automation;
+using System.Windows.Navigation;
 
 namespace Q_analysis
 {
-    internal class QVector : IEnumerable
+    public class QVector
     {
-        List<string> listOfRows;
-        SortedSet<int> numOfRows;
-        List<List<string>> finalRows;
-        Dictionary<string, string> pathDictionary = new Dictionary<string, string>();
-        Dictionary<string, string> keyValuePairs = new Dictionary<string, string>();
-        SortedSet<string> visited = new SortedSet<string>();
-        int dimensionSize = 0;
-        private void fixList()
+        private Dictionary<int, List<int>> rowsList;
+        private DataTable matrix;
+        private Dictionary<int, int> pathDict = new Dictionary<int, int>();
+        private Dictionary<int, SortedSet<int>> mergedDict = new Dictionary<int, SortedSet<int>>();
+        public Dictionary<int, List<List<int>>> finalDict = new Dictionary<int, List<List<int>>>();
+
+        public QVector(Dictionary<int, List<int>> rowsList, DataTable matrix)
         {
-            keyValuePairs.Clear();
-            pathDictionary.Clear();
-            foreach (var el in listOfRows)
+            this.rowsList = rowsList;
+            this.matrix = matrix;
+            procedure();
+        }
+
+        public void procedure()
+        {
+            foreach (var val in rowsList.Keys)
             {
-                string[] splitEl = el.Split(';');
-                if (splitEl.Length == 1)
+                pathDict.Clear();
+                mergedDict.Clear();
+             
+
+                SortedSet<int> sortValues = new SortedSet<int>(rowsList[val]);
+                List<int> values = new List<int>(sortValues);
+                SortedSet<int> visited = new();
+                for (int i = 0; i < values.Count; i++)
                 {
-                    if (visited.Contains(splitEl[0])) {
-                        continue;
-                    }
-                    if (keyValuePairs.ContainsKey(splitEl[0]))
+                    DataRow firstRow = matrix.Rows[values[i]];
+                    int rowSize = firstRow.ItemArray.Length;
+                    for (int j = i; j < values.Count; j++)
                     {
-                        
-                        keyValuePairs[splitEl[0]] = "";
-                    } else
-                    {
-                        keyValuePairs[splitEl[0]] = "";
-                    }
-                    continue;
-                }
-                string key = splitEl[0];
-                string value = splitEl[1];
-                if (keyValuePairs.ContainsKey(key))
-                {
-                    if (pathDictionary.ContainsKey(value))
-                    {
-                        continue;
-                    }
-                    string str = keyValuePairs[key];
-                    keyValuePairs[key] = str + ';' + value;
-                    pathDictionary[value] = key;
-                    visited.Add(value);
-                } else
-                {
-                    if (pathDictionary.ContainsKey(value))
-                    {
-                        keyValuePairs[pathDictionary[value]] += ";" + key;
-                        pathDictionary[key] = pathDictionary[value];
-                        visited.Add(value);
-                        continue;
-                    }
-                    if (pathDictionary.ContainsKey(key))
-                    {
-                        keyValuePairs[pathDictionary[key]] += ';' + value;
-                        pathDictionary[value] = pathDictionary[key];
-                        continue;
-                    } else
-                    {
-                        if (!pathDictionary.ContainsKey(value))
+                        if (i == j)
+                            continue;
+
+
+                        DataRow secondRow = matrix.Rows[values[j]];
+                        int count = 0;
+                        for (int k = 0; k < rowSize; k++)
                         {
-                            pathDictionary.Add(value, key);
-                            keyValuePairs.Add(key, value);
-                            visited.Add(value);
+                            int el1 = Convert.ToInt32(firstRow["y" + (k + 1)]);
+                            int el2 = Convert.ToInt32(secondRow["y" + (k + 1)]);
+
+                            if (el1 == 1 && el2 == 1)
+                            {
+                                count++;
+                            }
+                        }
+
+                        if (count >= val)
+                        {
+                            int firstValue = values[i];
+                            int secondValue = values[j];
+                            visited.Add(secondValue);
+                            visited.Add(firstValue);
+
+                            if (mergedDict.ContainsKey(values[i]))
+                            {
+                                mergedDict[firstValue].Add(secondValue);
+                                pathDict[secondValue] = firstValue;
+                            }
+                            else
+                            {
+                                if (pathDict.ContainsKey(secondValue))
+                                {
+                                    mergedDict[pathDict[secondValue]].Add(firstValue);
+                                    pathDict[firstValue] = pathDict[secondValue];
+                                }
+                                else
+                                {
+                                    if (pathDict.ContainsKey(firstValue))
+                                    {
+                                        mergedDict[pathDict[firstValue]].Add(secondValue);
+                                        pathDict[secondValue] = pathDict[firstValue];
+                                    }
+                                    else
+                                    {
+                                        SortedSet<int> newSet = new();
+                                        newSet.Add(secondValue);
+                                        mergedDict.Add(firstValue, newSet);
+                                        pathDict[secondValue] = firstValue;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                }
+                foreach (var check in values)
+                {
+                    if (!visited.Contains(check))
+                    {
+                        if (!mergedDict.ContainsKey(check))
+                            mergedDict.Add(check, new SortedSet<int>());
+                    }
+                }
+
+
+                if (values.Count != visited.Count)
+                {
+                    foreach (var pair in mergedDict.Keys)
+                    {
+                    
+                        if (finalDict.ContainsKey(val))
+                        {
+                            List<int> tempList = new List<int>();
+                            tempList.Add(pair);
+                            foreach (var el in mergedDict[pair])
+                            {
+                                tempList.Add(el);
+                            }
+                            finalDict[val].Add(tempList);
                         }
                         else
                         {
-                            keyValuePairs[pathDictionary[value]] += ";" + key;
+                            List<int> tempList = new List<int>();
+                            tempList.Add(pair);
+                            foreach (var el in mergedDict[pair])
+                            {
+                                tempList.Add(el);
+                            }
+                            finalDict.Add(val, new List<List<int>>() { tempList });
+                        }
+                    }
+                } else
+                {
+                    if (mergedDict.Count == 1)
+                    {
+                        finalDict.Add(val, new List<List<int>>() { new List<int>(visited) });
+                    } else
+                    {
+                        foreach (var item in mergedDict.Keys)
+                        {
+                            mergedDict[item].Add(item);
+                            if (finalDict.ContainsKey(val))
+                            {
+                                finalDict[val].Add(new List<int>(mergedDict[item]));
+
+                            } else
+                            {
+                                finalDict.Add(val, new List<List<int>> { new List<int>(mergedDict[item]) });
+
+                            }
                         }
                     }
                 }
             }
-            dimensionSize = keyValuePairs.Count;
-            sortDict();
-        
+            finalDict = finalDict.OrderByDescending(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
         }
 
-        public QVector()
+        public double getDucksteinEcc(int row)
         {
-            listOfRows = new();
-            numOfRows = new();
-            finalRows = new();
-        }
-        
-        public QVector(string el)
-        {
-            bool check = true;
-            listOfRows = new();
-            numOfRows = new();
-            finalRows = new();
-            foreach (var item in listOfRows)
+            double qMax = finalDict.First().Key;
+            double qSum = 0;
+            int rowPositon = -1;
+
+            foreach (var item in finalDict.Keys)
             {
-                if (item.Contains(el[1]) && el.Length == 2)
+                if (rowPositon != -1)
+                    break;
+                foreach (var el in finalDict[item])
                 {
-                    check = false;
+                    if (rowPositon != -1)
+                        break;
+
+                    if (el.Contains(row))
+                    {
+                        rowPositon = item;
+                    }
+                }
+            }
+
+            foreach (var item in finalDict.Keys)
+            {
+                if (item <= rowPositon)
+                {
+                    foreach (var el in finalDict[item])
+                    {
+                        if (el.Contains(row))
+                        {
+                            double qI = el.Count;
+                            double face = item - 1;
+                            qSum += (face / qI);
+                        }
+                    }
+                }
+            }
+            double res = (2 * qSum) / (qMax * (qMax - 1));
+            return res;
+
+        }
+
+        public double getCastiEcc(int row)
+        {
+            double q1 = -1, q2 = -1;
+
+            foreach (var item in finalDict.Keys)
+            {
+                if (q1 != -1 && q2 != -1)
+                {
                     break;
                 }
-            }
-            if (check)
-            {
-                if (!listOfRows.Contains("r" + el[1]))
+                foreach (var el in finalDict[item])
                 {
-                    listOfRows.Add(el);
-                }
-                if (el.Any(char.IsDigit))
-                {
-                    var splitEl = el.Split(';');
-                    foreach (var row in splitEl)
+                  
+                    if (el.Contains(row) && q1 == -1)
                     {
-                        numOfRows.Add(int.Parse(row.Substring(1)));
+                        q1 = item - 1;
                     }
 
-                }
-            }
-            fixList();
-
-        }
-        public int size()
-        {
-            return dimensionSize;
-        }
-        public QVector(List<string> lst)
-        {
-            finalRows = new();
-            listOfRows = lst;
-            fixList();
-            numOfRows = new();
-            for (int i = 0; i < listOfRows.Count; i++)
-            {
-                numOfRows.Add(int.Parse(listOfRows[i][1].ToString()));
-            }
-        }
-        
-        public void Add(string el)
-        {
-            bool check = true;
-            foreach (var item in listOfRows)
-            {
-                if (item.Contains(el[1]) && el.Length == 2)
-                {
-                    check = false;
-                    break;
-                }
-            }
-            if (check)
-            {
-                listOfRows.Add(el);
-                if (el.Any(char.IsDigit))
-                {
-                    var splitEl = el.Split(';');
-                    foreach (var row in splitEl)
+                    if (el.Count > 1 && el.Contains(row) && q2 == -1)
                     {
-                        numOfRows.Add(int.Parse(row.Substring(1)));
-                    }
-
-                }
-            }
-            fixList();
-        }
-
-        private void sortDict()
-        {
-            foreach (var el in keyValuePairs.Keys) 
-            {
-                string[] values;
-                if (keyValuePairs[el].Contains(';'))
-                {
-                   values = keyValuePairs[el].Split(';');
-                } else
-                {
-                    keyValuePairs[el] = "";
-                    continue;
-                }
-                SortedSet<int> sortedStr = new SortedSet<int>();
-
-                foreach (var item in values)
-                {
-                    if (item == "")
-                        continue;
-
-                    string res;
-                    if (item[item.Length - 1] == 'r')
-                    {
-                        res = item.Substring(0, item.Length - 1);
-                        sortedStr.Add(int.Parse(res.Substring(1)));
-                    }
-                    else
-                    {
-                        sortedStr.Add(int.Parse(item.Substring(1)));
+                        q2 = item - 1;
                     }
                 }
-                string sortedValue = "";
-                if (sortedStr.Count == 1)
-                {
-                    sortedValue = "r" + sortedStr.ElementAt(0);
-                } else
-                {
-                    sortedValue += 'r';
-                    sortedValue = string.Join(";", sortedStr.Select(x => "r" + x));
-                }
-                
-           
-                keyValuePairs[el] = sortedValue;
             }
+
+            if (q1 == -1 && q2 == -1)
+            {
+                return 0;
+            }
+            return ((q1 - q2) / (q2 + 1));
         }
 
-        public IEnumerator GetEnumerator()
+        public StringBuilder GetString(int dim)
         {
-            foreach (var item in numOfRows)
+            StringBuilder res = new();
+            foreach (var item in finalDict[dim])
             {
-                yield return item;
-            }
-        }
-
-        public List<int> getVector()
-        {
-
-            List<int> nums = new();
-            foreach (var item in numOfRows)
-            {
-                nums.Add(item);
-            }
-            return nums;
-        }
-        
-
-        public override string ToString()
-        {
-            fixList();
-            string res = "";
-            int size = keyValuePairs.Count;
-            int cnt = 0;
-            foreach (var key in keyValuePairs.Keys)
-            {
-                cnt++;
-                if (keyValuePairs[key] == "")
+                res.Append("{ ");
+                for (int i = 0; i < item.Count; i++)
                 {
-                    if (cnt != size)
+            
+                    if (i == item.Count - 1)
                     {
-                        res = res + " {" + key + "}, ";
-
+                        res.Append("x" + (item[i] + 1));
                     } else
                     {
-                        res = res + " {" + key + "}";
+                        res.Append("x" + (item[i] + 1) + ", ");
                     }
                 }
-                else
-                {
-                    res = res + " {" + key + ',' + keyValuePairs[key].Replace(';', ',') + "}";
-                    if (cnt != size)
-                    {
-                        res += ", ";
-                    }
-                    else
-                    {
-                        res += " ";
-                    }
-                }
-                
-            }    
+                res.Append(" } ");
+            }
+
+            return res;
+        }
+
+        public StringBuilder QVectorString()
+        {
+            StringBuilder res = new StringBuilder();
+            res.Append("Q-Vector = ( ");
+            foreach (var item in finalDict.Keys)
+            {
+                res.Append(finalDict[item].Count + " ");
+            }
+            res.Append(")");
+            return res;
+        }
+
+        public double[] QVectorDouble()
+        {
+            double[] res = new double[finalDict.Count];
+
+            int i = finalDict.Count - 1;
+            foreach (var item in finalDict.Keys) 
+            {
+                res[i] = (double)finalDict[item].Count;
+                i--;
+            }
+
+            return res;
+        }
+
+        public double[] QVectorDoubleSize()
+        {
+            double[] res = new double[finalDict.Count];
+
+            int i = finalDict.Count - 1;
+            foreach (var item in finalDict.Keys)
+            {
+                res[i] = i;
+                i--;
+            }
+
             return res;
         }
     }

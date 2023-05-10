@@ -19,7 +19,9 @@ namespace Q_analysis
     /// </summary>
     public partial class VisualisationWindow : Window
     {
-        QVectorFix qv;
+        QVector qv;
+        private List<object> items = new List<object>();
+
 
         public VisualisationWindow()
         {
@@ -30,16 +32,59 @@ namespace Q_analysis
             WpfPlot1.Refresh();
         }
 
-        public VisualisationWindow(QVectorFix qv)
+        public VisualisationWindow(QVector qv)
         {
             InitializeComponent();
             this.qv = qv;
-       
+
+            LoadPlot();
+
+
+            int cnt = 0;
+            foreach (var el in qv.finalDict.Keys)
+            {
+                string data1 = "q = " + (el - 1);
+                items.Add(new { DimensionFirstModel = data1, QValueFirstModel = qv.finalDict[el].Count, VectorsFirstModel = qv.GetString(el) });
+                cnt++;
+            }
+
+
+            qVectorFirstModel.ItemsSource = items;
+
+        }
+
+        void LoadPlot()
+        {
             double[] dataX = qv.QVectorDoubleSize();
             double[] dataY = qv.QVectorDouble();
+            WpfPlot1.Plot.XAxis.ManualTickSpacing(1);
+            WpfPlot1.Plot.YAxis.ManualTickSpacing(1);
             WpfPlot1.Plot.AddBar(dataY);
             WpfPlot1.Plot.Title(qv.QVectorString().ToString());
             WpfPlot1.Refresh();
+        }
+
+        private void FirstModel_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            object selectedItem = qVectorFirstModel.SelectedItem;
+            if (selectedItem is null)
+            {
+                return;
+            }
+            WpfPlot1.Plot.Clear();
+            LoadPlot();
+            string? value1 = selectedItem.ToString().Split('=')[2].Split(',')[0];
+            string? value2 = selectedItem.ToString().Split('=')[3].Split(',')[0];
+            double x = double.Parse(value1);
+
+            double y = double.Parse(value2);
+
+            var arrow = WpfPlot1.Plot.AddArrow(x, y, x, y + 0.1);
+            arrow.Color = System.Drawing.Color.Red;
+            arrow.ArrowheadWidth = 10;
+            arrow.ArrowheadWidth = 10;
+            WpfPlot1.Refresh();
+
         }
     }
 }
