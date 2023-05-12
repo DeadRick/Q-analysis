@@ -67,10 +67,15 @@ namespace Q_analysis
             InitializeSettingWindow();
             if (v)
             {
-                slicingText.Visibility = Visibility.Collapsed;
-                slicingValue.Visibility = Visibility.Collapsed;
-                slicingButtons.Visibility = Visibility.Collapsed;
+                HideSlicingOptions();
             }
+        }
+
+        private void HideSlicingOptions()
+        {
+            slicingText.Visibility = Visibility.Collapsed;
+            slicingValue.Visibility = Visibility.Collapsed;
+            slicingButtons.Visibility = Visibility.Collapsed;
         }
 
         public IList MatrixSize { get; private set; }
@@ -100,7 +105,14 @@ namespace Q_analysis
                 saveBtn.Background.Opacity = 1;
             }
             this.Matrix = new DataTable();
-            this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
+
+            if (defaultValueOne.IsChecked == true)
+            {
+                DefaultValue = 1;
+            } else
+            {
+                DefaultValue = 0;
+            }
             for (var i = 0; i < sizeM; i++)
                 Matrix.Columns.Add(new DataColumn("y" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
@@ -128,7 +140,14 @@ namespace Q_analysis
             }
         
             this.Matrix = new DataTable();
-            this.DefaultValue = int.Parse(defaultValue.Text); // #TODO: Parse. Incorrect value
+            if (defaultValueOne.IsChecked == true)
+            {
+                DefaultValue = 1;
+            }
+            else
+            {
+                DefaultValue = 0;
+            }
             for (var i = 0; i < sizeM; i++)
                 Matrix.Columns.Add(new DataColumn("y" + (i + 1), typeof(int)));
             for (var i = 0; i < sizeN; i++)
@@ -210,8 +229,9 @@ namespace Q_analysis
                     }
                 }
             }
+            loadMessage.Text = "Matrix was successfully saved.";
+            filePathText.Text = "File path: " + pathName;
             loadMessage.Visibility = Visibility.Visible;
-            // #TODO Сделать так, чтобы надпись на 5 минут появлялась 
         }
 
         // Click event to save a matrix
@@ -220,7 +240,6 @@ namespace Q_analysis
             SaveMatrixProcedure();
         }
 
- 
 
         private void sliceButton(object sender, RoutedEventArgs e)
         {
@@ -319,6 +338,10 @@ namespace Q_analysis
             {
                 return;
             }
+            if (isNotOneOrZero())
+            {
+                return;
+            }
             if (resultWindow is null)
             {
                 resultWindow = new ResultWindow(this, this.Matrix, projectName.Text);
@@ -331,6 +354,27 @@ namespace Q_analysis
             this.Hide();
         }
 
+        private bool isNotOneOrZero()
+        {
+            foreach (DataRow row in Matrix.Rows)
+            {
+                for (int i = 0; i < Matrix.Columns.Count; i++)
+                {
+                   
+                    string value = row[i].ToString();
+                    if (value == null)
+                    {
+                        return true;
+                    }
+                    if (value != "0" && value != "1")
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         private void questionMarkBtn(object sender, RoutedEventArgs e)
         {
             HelpModalWindow hp = new();
@@ -341,6 +385,32 @@ namespace Q_analysis
         {
             string res = "x" + (e.Row.GetIndex() + 1);
             e.Row.Header = res;
+        }
+
+        private void checkedDefaultValue(object sender, RoutedEventArgs e)
+        {
+            if (this.defaultValueZero == null)
+            {
+                return;
+            }
+            this.defaultValueOne.IsChecked = false;
+        }
+
+        private void checkedDefaultValueOne(object sender, RoutedEventArgs e)
+        {
+            if (this.defaultValueOne == null)
+            {
+                return;
+            }
+            this.defaultValueZero.IsChecked = false;
+        }
+
+        private void ExitWindow(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = new();
+            mainWindow.Show();
+            SaveMatrixProcedure();
+            this.Close();
         }
     }
 }

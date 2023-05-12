@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ScottPlot;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -60,6 +61,8 @@ namespace Q_analysis
             WpfPlot1.Plot.XAxis.ManualTickSpacing(1);
             WpfPlot1.Plot.YAxis.ManualTickSpacing(1);
             WpfPlot1.Plot.AddBar(dataY);
+            WpfPlot1.Configuration.LockHorizontalAxis = true;
+            WpfPlot1.Configuration.LockVerticalAxis = true;
             WpfPlot1.Plot.Title(qv.QVectorString().ToString());
             WpfPlot1.Refresh();
         }
@@ -85,6 +88,11 @@ namespace Q_analysis
             arrow.ArrowheadWidth = 10;
             WpfPlot1.Refresh();
 
+        }
+
+        private void closeWindowBtn(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

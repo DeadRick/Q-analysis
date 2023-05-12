@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis" xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
-        Title="CompareWindow" Height="450" Width="800">
+        Title="CompareWindow" Height="450" Width="800" MinHeight="600" MinWidth="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -39,7 +39,7 @@
             </ListView.View>
         </ListView>
 
-        <ListView x:Name="qVectorSecondModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arraySecondModel}" Grid.Column="2" Margin="40, 10, 20, 0" VerticalAlignment="Top" MaxHeight="300">
+        <ListView x:Name="qVectorSecondModel" Grid.Row="2" d:ItemsSource="{DynamicResource ResourceKey=arraySecondModel}" Grid.Column="2" Margin="40, 10, 20, 0" VerticalAlignment="Top" MaxHeight="300" MouseDoubleClick="SecondModel_DoubleClick">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Dimension q = i" DisplayMemberBinding="{Binding DimensionSecondModel}"/>
@@ -60,6 +60,9 @@
 
         <Border Grid.Column="0" Grid.Row="3" Margin="50,20, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="120" Height="30">
             <Button  BorderThickness="0"  Width="120" Height="31" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="loadSecondBtn"  >Load Second Model</Button>
+        </Border>
+        <Border Grid.Column="0" Grid.Row="3" Margin="190, 20, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
+            <Button  BorderThickness="0" Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="closeWindowBtn">Close</Button>
         </Border>
 
     </Grid>

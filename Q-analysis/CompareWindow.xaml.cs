@@ -40,6 +40,10 @@ namespace Q_analysis
         {
             InitializeComponent();
             this.qvFirst = qv;
+            WpfPlot1.Configuration.LockHorizontalAxis = true;
+            WpfPlot1.Configuration.LockVerticalAxis = true;
+            WpfPlot2.Configuration.LockHorizontalAxis = true;
+            WpfPlot2.Configuration.LockVerticalAxis = true;
 
             LoadFirstPlot();
 
@@ -108,13 +112,19 @@ namespace Q_analysis
 
             qVectorSecondModel.Items.Refresh();
 
+            LoadSecondPlotProcedure();
+
+        }
+
+        private void LoadSecondPlotProcedure()
+        {
             double[] dataY = qvSecond.QVectorDouble();
             WpfPlot2.Plot.AddBar(dataY);
             WpfPlot2.Plot.Palette = ScottPlot.Palette.Category10;
             WpfPlot2.Plot.Title(qvSecond.QVectorString().ToString());
-
+            WpfPlot2.Plot.XAxis.ManualTickSpacing(1);
+            WpfPlot2.Plot.YAxis.ManualTickSpacing(1);
             WpfPlot2.Refresh();
-
         }
 
         private void FirstModel_DoubleClick(object sender, MouseButtonEventArgs e)
@@ -141,6 +151,27 @@ namespace Q_analysis
 
         }
 
+        private void SecondModel_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            object selectedItem = qVectorSecondModel.SelectedItem;
+            if (selectedItem is null)
+            {
+                return;
+            }
+            WpfPlot2.Plot.Clear();
+            LoadSecondPlotProcedure();
+            string? value1 = selectedItem.ToString().Split('=')[2].Split(',')[0];
+            string? value2 = selectedItem.ToString().Split('=')[3].Split(',')[0];
+            double x = double.Parse(value1);
+
+            double y = double.Parse(value2);
+
+            var arrow = WpfPlot2.Plot.AddArrow(x, y, x, y + 0.1);
+            arrow.Color = System.Drawing.Color.Red;
+            arrow.ArrowheadWidth = 10;
+            arrow.ArrowheadWidth = 10;
+            WpfPlot2.Refresh();
+        }
         private void loadSecondBtn(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -173,6 +204,10 @@ namespace Q_analysis
             }
         }
 
+        private void closeWindowBtn(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
     }
 }
     

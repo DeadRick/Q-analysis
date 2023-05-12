@@ -34,8 +34,15 @@ namespace Q_analysis
         {
             this.Hide();
 
-            bool condition = true;
             SettingWindow settingWindow = new(true);
+            settingWindow.Show();
+        }
+
+        private void WeightedMatrixBtn(object sender, RoutedEventArgs e)
+        {
+            this.Hide();
+
+            SettingWindow settingWindow = new(false);
             settingWindow.Show();
         }
     }

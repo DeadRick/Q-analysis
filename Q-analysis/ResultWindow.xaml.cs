@@ -129,5 +129,12 @@ namespace Q_analysis
             CompareWindow compareWindow = new CompareWindow(qv);
             compareWindow.Show();
         }
+
+        private void ExitWindow(object sender, EventArgs e)
+        {
+            MainWindow mainWindow = new();
+            mainWindow.Show();
+            this.Close();
+        }
     }
 }
