@@ -14,6 +14,10 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Width="280" Text="A binary matrix is a representation of a binary relation defined on the Cartesian product of X × Y, where  X = {x1, x2, ..., xn} and Y = {y1, y2, ..., ym}." TextWrapping="Wrap" Margin="10" Grid.Row="0"/>
-        <Button Content="OK" Margin="10" Grid.Row="1" HorizontalAlignment="Center" Width="75" Click="OkButton_Click"/>
+        <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0, 5" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"  
+                Width="60" Height="25" VerticalAlignment="Top">
+            <Button Width="60" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="OkButton_Click">OK</Button>
+        </Border>
     </Grid>
 </Window>

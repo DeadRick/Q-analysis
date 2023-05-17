@@ -4,11 +4,13 @@ using System.Collections;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Threading;
 using System.Xml.Linq;
 using static System.Net.WebRequestMethods;
 using File = System.IO.File;
@@ -173,16 +175,26 @@ namespace Q_analysis
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MainWindow mw = new();
-              
-            mw.Show();
             this.Close();
+        }
+
+        private void ShowAlertText(string info)
+        {
+            loadMessage.Visibility = Visibility.Visible;
+            loadMessage.Text = info;
+            loadMessage.Foreground = System.Windows.Media.Brushes.LightGreen;
+            DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Tick += (sender, e) =>
+            {
+                loadMessage.Visibility = Visibility.Hidden;
+                timer.Stop();
+            };
+            timer.Start();
         }
 
         private async void SaveMatrixProcedure()
         {
-            // #TODO Change to the current project
-            // #TODO Add HINT for unvisible matrix
             if (Matrix is null)
             {
                 return;
@@ -196,44 +208,85 @@ namespace Q_analysis
                 {
                     return;
                 }
-
-                pathName = dir + "\\" + projectName.Text + "_" + slicingValue.Text + ".csv";
+                // Saving matrix after slicing proedure
+                pathName = dir + "\\" + projectName.Text + "_" + slicingValue.Text;
             }
             else
             {
-                pathName = dir + "\\" + projectName.Text + ".csv";
+                pathName = dir + "\\" + projectName.Text;
             }
-            using StreamWriter file = new(pathName);
+            using StreamWriter file = new(pathName + ".csv");
+            using StreamWriter fileT = new(pathName + "_T" + ".csv");
             var dt = (DataTable)(this.Matrix);
+            var dtT = Transpose(dt);
+
+            MatrixSaving(dt, file);
+            MatrixSaving(dtT, fileT);
+
+            ShowAlertText("Matrix was successfully saved.");
+            filePathText.Text = "File path: " + pathName;
+            loadMessage.Visibility = Visibility.Visible;
+        }
+
+        private DataTable Transpose(DataTable dt)
+        {
+            DataTable dtNew = new DataTable();
+
+            //adding columns    
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                dtNew.Columns.Add(i.ToString());
+            }
+
+
+            for (int i = 0; i < dt.Rows.Count - 1; i++)
+            {
+                dtNew.Columns[i + 1].ColumnName = "y" + (i + 1);
+            }
+
+            //Adding Row Data
+            for (int k = 0; k < dt.Columns.Count; k++)
+            {
+                DataRow r = dtNew.NewRow();
+                //r[0] = dt.Columns[k].ToString();
+                for (int j = 0; j <= dt.Rows.Count - 1; j++)
+                    r[j] = dt.Rows[j][k];
+                dtNew.Rows.Add(r);
+            }
+
+            return dtNew;
+        }
+
+        private async void MatrixSaving(DataTable dt, StreamWriter file)
+        {
             for (int i = 0; i < dt.Rows.Count; i++)
             {
                 for (int j = 0; j < dt.Columns.Count; j++)
                 {
                     int number;
+                    string str;
                     // Null elements is Default value
                     if (dt.Rows[i].IsNull(j))
                     {
                         number = DefaultValue;
+                        str = DefaultValue.ToString();
                     }
                     else
                     {
-                        number = dt.Rows[i].Field<int>(j);
+                        str = dt.Rows[i].Field<object>(j).ToString();
+                        //number = dt.Rows[i].Field<int>(j);
                     }
                     if (j != dt.Columns.Count - 1)
                     {
-                        await file.WriteAsync(number.ToString() + ',');
+                        await file.WriteAsync(str + ',');
                     }
                     else
                     {
-                        await file.WriteAsync(number.ToString() + "\n");
+                        await file.WriteAsync(str + "\n");
                     }
                 }
             }
-            loadMessage.Text = "Matrix was successfully saved.";
-            filePathText.Text = "File path: " + pathName;
-            loadMessage.Visibility = Visibility.Visible;
         }
-
         // Click event to save a matrix
         private async void SaveMatrix(object sender, RoutedEventArgs e)
         {
@@ -285,7 +338,13 @@ namespace Q_analysis
         private void LoadFile(string[] file)
         {
             int sizeN = file.Length;
-            int sizeM = file[0].ToString().Split(',').Length;
+            int sizeM;
+            if (sizeN == 0)
+            {
+                sizeM = 0;
+            } else {
+                sizeM = file[0].ToString().Split(',').Length;
+            }
 
             nSize.Text = sizeN.ToString();
             mSize.Text = sizeM.ToString();

@@ -23,10 +23,14 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding Matrix}"
+            <DataGrid Grid.Row="0" Grid.Column="0" Width="Auto" 
+                      MaxWidth="350" MaxHeight="300" Margin="0, 10, 0, 0"
+                      CanUserAddRows="False" x:Name="dataGrid" ItemsSource="{Binding Matrix}" VerticalAlignment="Top" IsReadOnly="False" CanUserResizeColumns="False" CanUserReorderColumns="False" LoadingRow="DataGridLoading"/>
+
+            <!--<DataGrid x:Name="dataGrid" Grid.Row="0" Grid.Column="0" AutoGenerateColumns="True" ItemsSource="{Binding Matrix}"
                   HeadersVisibility="All"  RowHeaderWidth="0" VerticalAlignment="Top" 
                   CanUserAddRows="False" CanUserDeleteRows="True"  Width="auto" MaxWidth="400" MaxHeight="350" Visibility="Visible" LoadingRow="DataGridLoading">
-            </DataGrid>
+            </DataGrid>-->
 
         </Grid>
         <TextBlock x:Name="matrixMessage" Grid.Row="0" Grid.Column="0" Foreground="DarkGray" Margin="20, 10, 0, 0" Width="auto">Matrix will appear here.</TextBlock>
