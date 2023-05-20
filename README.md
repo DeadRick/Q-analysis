@@ -35,7 +35,7 @@ To use the program, download the installer from the  [Releases](https://github.c
  1. The window displays resultant Q-vector characterizing multidimensional structure of the simplicial complex K (a list featuring all connected components formed by K's simplices), eccentricities of simplices (a list of calculated values), and the matrix entered by the user (model that is processed).
  2. Visualize the results obtained.
  3. Calculate eccentricities of simplices according to formulas proposed by J.L. Casti[^1] or L. Duckstein[^2]
-    Save the results.
+ 4. Save the results.
     
 [^1]: Casti J.L. (1979). Connectivity, Complexity and Catastrophe in Large-scale Systems. John Wiley & Sons.
 [^2]: Duckstein L. (1997). Q-analysis for modeling and decision making.
