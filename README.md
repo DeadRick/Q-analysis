@@ -37,8 +37,8 @@ To use the program, download the installer from the  [Releases](https://github.c
  3. Calculate eccentricities of simplices according to formulas proposed by J.L. Casti[^1] or L. Duckstein[^2]
  4. Save the results.
     
-[^1]: Casti J.L. (1979). Connectivity, Complexity and Catastrophe in Large-scale Systems. John Wiley & Sons.
-[^2]: Duckstein L. (1997). Q-analysis for modeling and decision making.
+[^1]: Casti J.L. Connectivity, complexity, and catastrophe in large-scale systems (Int. Series on Applied Systems Analysis), J. Wiley & Sons, 1979, 203 p.
+[^2]: Duckstein L., Nobe S.A. Q-analysis for modeling and decision making, European Journal of Operational Research, 103 (3), 1997, pp. 411-425
 
 ### Visualization Window
 1. View of the visualization of the results.
