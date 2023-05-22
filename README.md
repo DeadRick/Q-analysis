@@ -10,7 +10,7 @@ The Q-analysis is an implementation for performing Q-analysis. This program allo
 
 ## Installation
 
-To use the program, download the installer from the  [Releases](https://github.com/Ivruix/AnalyticHierarchyProcess/releases) page. Once it is done, run the installer and follow the on-screen instructions to install the program on your computer. Alternatively, it may be possible to
+To use the program, download the installer from the  [Releases](https://github.com/DeadRick/Q-analysis/releases) page. Once it is done, run the installer and follow the on-screen instructions to install the program on your computer. Alternatively, it may be possible to
 
 1. Clone the repository, or download the program as a ZIP file.
 2. Open the project in your preferred development environment (e.g., Visual Studio).
@@ -22,9 +22,8 @@ To use the program, download the installer from the  [Releases](https://github.c
 
 
 ### New Project Window
-1. Setting binary matrix.
-2. Setting weighted matrix.
-
+  1. Setting binary adjacency matrix (0/1 values).
+  2. Setting weighted matrix (relationships between elements are characterized by numeric weights).
 
 ### Matrix Input Window
 1.  Matrix input functionality.
