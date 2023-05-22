@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis"
         mc:Ignorable="d"
-        Title="ResultWindow" Height="450" Width="800" MinHeight="700" MinWidth="1200" Closed="ExitWindow">
+        Title="Q-analysis" Height="450" Width="800" MinHeight="700" MinWidth="1200" Closed="ExitWindow">
     
     <Grid>
         <Grid.ColumnDefinitions>
@@ -60,7 +60,7 @@
             </Border>
 
             <Border Margin="0, 0, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="75" Height="30">
-                <Button  BorderThickness="0"  Width="75" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="visualBtn" >Visualisation</Button>
+                <Button  BorderThickness="0"  Width="75" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="visualBtn" >Visualization</Button>
             </Border>
 
             <Border Margin="0, 0, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="60" Height="30">

@@ -24,6 +24,7 @@ namespace Q_analysis
     {
         private SettingWindow settingWindow;
         public DataTable matrix;
+        private bool? castiEcc, ducksteinEcc;
         private List<object> items = new List<object>();
         private List<object> eccsList = new List<object>();
         private List<object> qVectorStr = new List<object>();
@@ -32,16 +33,18 @@ namespace Q_analysis
         QVector qv;
 
 
-        public void Update(DataTable oldMatrix)
+        public void Update(DataTable oldMatrix, bool? Casti, bool? Duckstein)
         {
             items.Clear();
             eccsList.Clear();
             qVector.ItemsSource = null;
             eccentricity.ItemsSource = null;
             this.matrix = oldMatrix;
-
+            castiEcc = Casti;
+            ducksteinEcc = Duckstein;
             qAnalysisProcedure();
-        } 
+        }
+
 
         private void qAnalysisProcedure() {
             rowsList.Clear();
@@ -63,10 +66,22 @@ namespace Q_analysis
 
             qVector.ItemsSource = items;
 
+            if (!(bool)castiEcc && !(bool)ducksteinEcc)
+            {
+                eccentricity.Visibility = Visibility.Collapsed;
+            }
+
             for (int i = 0; i < matrix.Rows.Count; i++)
             {
-                string data1 = "ecc(x" + (i + 1) + ") = " + qv.getCastiEcc(i).ToString("F3");
-                string data2 = "ecc(x" + (i + 1) + ") = " + qv.getDucksteinEcc(i).ToString("F3");
+                string data1 = "", data2 = "";
+                if ((bool)castiEcc)
+                {
+                    data1 = "ecc(x" + (i + 1) + ") = " + qv.getCastiEcc(i).ToString("F3");
+                }
+                if ((bool)ducksteinEcc)
+                {
+                   data2 = "ecc(x" + (i + 1) + ") = " + qv.getDucksteinEcc(i).ToString("F3");
+                }
                 eccsList.Add(new { eccCasti = data1, eccDuck =  data2});
             }
 
@@ -75,13 +90,15 @@ namespace Q_analysis
         }
 
 
-        public ResultWindow(SettingWindow settingWindow, DataTable matrix, string projectName)
+        public ResultWindow(SettingWindow settingWindow, DataTable matrix, string projectName, bool? Casti, bool? Duckstein)
         {
             this.settingWindow = settingWindow;
             this.matrix = matrix;
             this.WindowState = WindowState.Maximized;
             qv = null;
 
+            castiEcc = Casti;
+            ducksteinEcc = Duckstein;
 
             dg.ItemsSource = matrix.DefaultView;
             //dg.RowHeaderVisible = true;
@@ -136,5 +153,7 @@ namespace Q_analysis
             mainWindow.Show();
             this.Close();
         }
+
+
     }
 }

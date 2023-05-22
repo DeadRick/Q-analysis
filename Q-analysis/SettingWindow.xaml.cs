@@ -24,6 +24,7 @@ namespace Q_analysis
     {
         private string path;
         private bool isBinaryMatrix;
+        private string directoryPath;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -40,11 +41,14 @@ namespace Q_analysis
             saveBtnBorder.BorderBrush.Opacity = 0.25;
             saveBtn.Background.Opacity = 0.25;
             projectName.Text = QAnalysisFunc.GetNameOfProject();
+            PathInit();
+
         }
 
         public SettingWindow()
         {
             InitializeSettingWindow();
+            PathInit();
         }
 
         public SettingWindow(string path)
@@ -62,6 +66,8 @@ namespace Q_analysis
                 string[] splitPath = files[0].Split('\\');
                 projectName.Text = splitPath[splitPath.Length - 1].Split('.')[0];
             }
+            PathInit();
+
         }
 
         public SettingWindow(bool v)
@@ -70,6 +76,17 @@ namespace Q_analysis
             if (v)
             {
                 HideSlicingOptions();
+            }
+            PathInit();
+        }
+
+        private void PathInit()
+        {
+            string dir = Directory.GetCurrentDirectory() + "\\projects" + "\\" + projectName.Text;
+            directoryPath = dir;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
             }
         }
 
@@ -178,13 +195,20 @@ namespace Q_analysis
             this.Close();
         }
 
-        private void ShowAlertText(string info)
+        private void ShowAlertText(string info, bool isWrong)
         {
             loadMessage.Visibility = Visibility.Visible;
             loadMessage.Text = info;
-            loadMessage.Foreground = System.Windows.Media.Brushes.LightGreen;
+            if (isWrong)
+            {
+                loadMessage.Foreground = System.Windows.Media.Brushes.Tomato;
+            }
+            else
+            {
+                loadMessage.Foreground = System.Windows.Media.Brushes.LightGreen;
+            }
             DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(10);
+            timer.Interval = TimeSpan.FromSeconds(5);
             timer.Tick += (sender, e) =>
             {
                 loadMessage.Visibility = Visibility.Hidden;
@@ -199,7 +223,8 @@ namespace Q_analysis
             {
                 return;
             }
-            string dir = dir = Directory.GetCurrentDirectory() + "\\projects\\" + QAnalysisFunc.GetNameOfProject();
+            //string dir = dir = Directory.GetCurrentDirectory() + "\\projects\\" + QAnalysisFunc.GetNameOfProject();
+            string dir = Directory.GetCurrentDirectory() + "\\projects";
             string pathName;
             if (slicingValue.Text != "")
             {
@@ -209,22 +234,29 @@ namespace Q_analysis
                     return;
                 }
                 // Saving matrix after slicing proedure
-                pathName = dir + "\\" + projectName.Text + "_" + slicingValue.Text;
+                pathName = dir  + "\\" + projectName.Text + "_" + slicingValue.Text;
             }
             else
             {
-                pathName = dir + "\\" + projectName.Text;
+                pathName = dir  + "\\" + projectName.Text;
+                directoryPath = pathName;
+                if (!Directory.Exists(pathName))
+                {
+                    Directory.CreateDirectory(pathName);
+                }
             }
-            using StreamWriter file = new(pathName + ".csv");
-            using StreamWriter fileT = new(pathName + "_T" + ".csv");
+
+            string name = projectName.Text.Split("_")[0];
+
+            using StreamWriter file = new(pathName + "\\" + name + ".csv");
+            using StreamWriter fileT = new(pathName + "\\" + name + "_T" + ".csv");
             var dt = (DataTable)(this.Matrix);
             var dtT = Transpose(dt);
 
             MatrixSaving(dt, file);
             MatrixSaving(dtT, fileT);
 
-            ShowAlertText("Matrix was successfully saved.");
-            filePathText.Text = "File path: " + pathName;
+            ShowAlertText("Matrix was successfully saved.", false);
             loadMessage.Visibility = Visibility.Visible;
         }
 
@@ -363,6 +395,7 @@ namespace Q_analysis
         private void LoadProcedure(string file)
         {
             var fileData = File.ReadAllLines(file);
+            PathInit();
             LoadFile(fileData);
         }
 
@@ -399,14 +432,15 @@ namespace Q_analysis
             }
             if (isNotOneOrZero())
             {
+                ShowAlertText("Incorrect matrix.", true);
                 return;
             }
             if (resultWindow is null)
             {
-                resultWindow = new ResultWindow(this, this.Matrix, projectName.Text);
+                resultWindow = new ResultWindow(this, this.Matrix, projectName.Text, CastiEcc.IsChecked, DucksteinEcc.IsChecked );
             } else
             {
-                resultWindow.Update(this.Matrix);
+                resultWindow.Update(this.Matrix, CastiEcc.IsChecked, DucksteinEcc.IsChecked);
             }
         
             resultWindow.Show();
@@ -436,7 +470,7 @@ namespace Q_analysis
 
         private void questionMarkBtn(object sender, RoutedEventArgs e)
         {
-            HelpModalWindow hp = new();
+           HelpModalWindow hp = new("A binary matrix is a representation of a binary relation defined on the Cartesian product of X × Y, where  X = {x1, x2, ..., xn} and Y = {y1, y2, ..., ym}.");
             hp.Show();
         }
 
@@ -471,5 +505,20 @@ namespace Q_analysis
             SaveMatrixProcedure();
             this.Close();
         }
+
+        private void openSource(object sender, RoutedEventArgs e)
+        {
+                try
+                {
+                    Process.Start("explorer.exe", directoryPath);
+            }
+                catch (Exception ex)
+                {
+                    // Handle any exceptions that may occur while opening the directory
+                    MessageBox.Show("Error opening directory: " + ex.Message);
+                }
+            
+        }
+
     }
 }

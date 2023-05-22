@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis"
         mc:Ignorable="d"
-        Title="Binary Matrix" SizeToContent="WidthAndHeight"
+        Title="Q-analysis" SizeToContent="WidthAndHeight"
         WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen"
-        ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True">
+        ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True"
+        Width="Auto" MaxWidth="600px" Height="Auto" MaxHeight="600px">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Width="280" Text="A binary matrix is a representation of a binary relation defined on the Cartesian product of X × Y, where  X = {x1, x2, ..., xn} and Y = {y1, y2, ..., ym}." TextWrapping="Wrap" Margin="10" Grid.Row="0"/>
+        <TextBlock x:Name="textInfo" Width="Auto" MaxWidth="600px" Height="Auto" MaxHeight="600px" Text="d" TextWrapping="Wrap" Margin="10" Grid.Row="0"/>
         <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0, 5" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"  
                 Width="60" Height="25" VerticalAlignment="Top">
             <Button Width="60" Height="25"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"

@@ -208,6 +208,12 @@ namespace Q_analysis
         {
             this.Close();
         }
+
+        private void questionMarkBtnn(object sender, RoutedEventArgs e)
+        {
+            HelpModalWindow hmw = new("The simplices that differ in size are marked in green. \nThe simplices that do not differ in size but have different components are marked in orange.");
+            hmw.Show();
+        }
     }
 }
     

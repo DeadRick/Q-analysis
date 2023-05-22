@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis" xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
-        Title="VisualisationWindow" Height="450" Width="800" MinHeight="700" MinWidth="1200">
+        Title="Q-analysis" Height="450" Width="800" MinHeight="700" MinWidth="1200">
     <Grid>
 
             

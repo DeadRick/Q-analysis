@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis" xmlns:ScottPlot="clr-namespace:ScottPlot;assembly=ScottPlot.WPF"
         mc:Ignorable="d"
-        Title="CompareWindow" Height="450" Width="800" MinHeight="600" MinWidth="1000">
+        Title="Q-analysis" Height="450" Width="800" MinHeight="600" MinWidth="1000">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*" />
@@ -64,6 +64,9 @@
         <Border Grid.Column="0" Grid.Row="3" Margin="190, 20, 20, 20" HorizontalAlignment="Left" VerticalAlignment="Bottom" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="70" Height="30">
             <Button  BorderThickness="0" Width="70" Height="30" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"  Background="#546DE5" Foreground="White" Click="closeWindowBtn">Close</Button>
         </Border>
-
+        <Border Grid.Column="0" Grid.Row="3"  Margin="280, 20, 20, 20" CornerRadius="6" BorderBrush="#546DE5" BorderThickness="2"   Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top">
+            <Button Width="65" Height="35"  BorderThickness="0" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}"
+                    FontSize="14" Background="#546DE5" Foreground="White" Click="questionMarkBtnn">?</Button>
+        </Border>
     </Grid>
 </Window>

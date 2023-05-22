@@ -19,10 +19,15 @@ namespace Q_analysis
     /// </summary>
     public partial class HelpModalWindow : Window
     {
-        public HelpModalWindow()
+        public HelpModalWindow(string str)
         {
-            this.ResizeMode = ResizeMode.NoResize;
             InitializeComponent();
+
+            if (str != null)
+            {
+                textInfo.Text = str;
+            }
+            this.ResizeMode = ResizeMode.NoResize;
         }
 
         private void OkButton_Click(object sender, RoutedEventArgs e)

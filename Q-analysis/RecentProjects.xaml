@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Q_analysis"
         mc:Ignorable="d"
-        Title="RecentProjects" Height="450" Width="800">
+        Title="Q-analysis" Height="450" Width="800">
     <Grid HorizontalAlignment="Center">
     </Grid>
 </Window>
