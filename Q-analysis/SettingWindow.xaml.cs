@@ -226,6 +226,7 @@ namespace Q_analysis
             //string dir = dir = Directory.GetCurrentDirectory() + "\\projects\\" + QAnalysisFunc.GetNameOfProject();
             string dir = Directory.GetCurrentDirectory() + "\\projects";
             string pathName;
+            bool isSliced = false;
             if (slicingValue.Text != "")
             {
                 int sliceValue;
@@ -234,7 +235,8 @@ namespace Q_analysis
                     return;
                 }
                 // Saving matrix after slicing proedure
-                pathName = dir  + "\\" + projectName.Text + "_" + slicingValue.Text;
+                pathName = dir  + "\\" + projectName.Text;
+                isSliced = true;
             }
             else
             {
@@ -246,15 +248,26 @@ namespace Q_analysis
                 }
             }
 
+ 
             string name = projectName.Text.Split("_")[0];
-
+            
             using StreamWriter file = new(pathName + "\\" + name + ".csv");
-            using StreamWriter fileT = new(pathName + "\\" + name + "_T" + ".csv");
             var dt = (DataTable)(this.Matrix);
-            var dtT = Transpose(dt);
+
+            if (isSliced)
+            {
+                using StreamWriter fileSlice = new(pathName + "\\" + name + "_" + slicingValue.Text + ".csv");
+                MatrixSaving(dt, fileSlice);
+            }
+            else
+            {
+                using StreamWriter fileT = new(pathName + "\\" + name + "_T" + ".csv");
+                var dtT = Transpose(dt);
+                MatrixSaving(dtT, fileT);
+
+            }
 
             MatrixSaving(dt, file);
-            MatrixSaving(dtT, fileT);
 
             ShowAlertText("Matrix was successfully saved.", false);
             loadMessage.Visibility = Visibility.Visible;
